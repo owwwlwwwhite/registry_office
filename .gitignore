@@ -37,3 +37,5 @@ build/
 
 ### Mac OS ###
 .DS_Store
+/src/test/resources/test_auth.properties
+/src/main/resources/test_auth.properties
