@@ -1,5 +1,6 @@
 package org.example;
 
+import io.github.bonigarcia.wdm.WebDriverManager;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -9,11 +10,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-/**
- * Hello world!
- *
- */
-public class App 
+public class App
 {
     static private WebDriver driver;
 
@@ -26,9 +23,23 @@ public class App
         selectServiceStep();
         citizenDataStep();
         serviceDataStep();
+
+        assertApplication();
+
+        driver.quit();
+    }
+
+    private static void assertApplication() {
+        if (driver.findElement(new By.ByXPath("//span[test()='Спасибо за обращение!']")).isDisplayed()) {
+            System.out.println("TEST: passed");
+        } else {
+            System.out.println("TEST: failed");
+        }
     }
 
     private static void initializeDriver() {
+        WebDriverManager.chromedriver().setup();
+
         driver = new ChromeDriver();
         driver.manage().window().maximize();
 
@@ -95,8 +106,8 @@ public class App
     }
 
     private static void enterForm() {
-        WebElement EnterAsUserBtn = driver.findElement(new By.ByXPath("//button[1][contains(text(),'Войти как пользователь')]"));
-        EnterAsUserBtn.click();
+        WebElement enterAsUserBtn = driver.findElement(new By.ByXPath("//button[1][contains(text(),'Войти как пользователь')]"));
+        enterAsUserBtn.click();
     }
 
     private static void applicantDataStep() {

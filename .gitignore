@@ -9,6 +9,7 @@ target/
 .idea/jarRepositories.xml
 .idea/compiler.xml
 .idea/libraries/
+.idea/
 *.iws
 *.iml
 *.ipr
@@ -39,3 +40,4 @@ build/
 .DS_Store
 /src/test/resources/test_auth.properties
 /src/main/resources/test_auth.properties
+/.idea/
