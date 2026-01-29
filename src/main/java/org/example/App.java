@@ -30,7 +30,7 @@ public class App
     }
 
     private static void assertApplication() {
-        if (driver.findElement(new By.ByXPath("//span[test()='Спасибо за обращение!']")).isDisplayed()) {
+        if (driver.findElement(new By.ByXPath("//span[text()='Спасибо за обращение!']")).isDisplayed()) {
             System.out.println("TEST: passed");
         } else {
             System.out.println("TEST: failed");
