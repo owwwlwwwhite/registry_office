@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 
 
 public class ApplicationsAdministrationPage {
-    private final WebDriver driver;
 
     private Table table;
 
@@ -13,8 +12,11 @@ public class ApplicationsAdministrationPage {
         return table;
     }
 
+    public void setTable(Table table) {
+        this.table = table;
+    }
+
     public ApplicationsAdministrationPage(WebDriver driver) {
-        this.driver = driver;
 
         this.table = new Table(driver);
     }

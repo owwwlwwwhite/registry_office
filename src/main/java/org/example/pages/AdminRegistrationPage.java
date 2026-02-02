@@ -6,8 +6,6 @@ import org.example.valueObjects.Admin;
 import org.openqa.selenium.WebDriver;
 
 public class AdminRegistrationPage {
-    private final WebDriver driver;
-
     private final InputField surnameField;
     private final InputField nameField;
     private final InputField patronymicField;
@@ -19,7 +17,6 @@ public class AdminRegistrationPage {
     private final Button proceedButton;
 
     public AdminRegistrationPage(WebDriver driver) {
-        this.driver = driver;
         this.surnameField = new InputField(driver, "Фамилия");
         this.nameField = new InputField(driver, "Имя");
         this.patronymicField = new InputField(driver, "Отчество");

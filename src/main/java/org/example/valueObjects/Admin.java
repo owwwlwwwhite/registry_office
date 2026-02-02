@@ -1,16 +1,14 @@
 package org.example.valueObjects;
 
-import org.example.elements.InputField;
-
 public class Admin {
 
-    private String surnameField;
-    private String nameField;
-    private String patronymicField;
+    private final String surnameField;
+    private final String nameField;
+    private final String patronymicField;
 
-    private String phoneNumberField;
-    private String passportNumberField;
-    private String birthDate;
+    private final String phoneNumberField;
+    private final String passportNumberField;
+    private final String birthDate;
 
     public String getSurnameField() {
         return surnameField;

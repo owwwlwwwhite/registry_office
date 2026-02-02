@@ -8,8 +8,6 @@ import org.openqa.selenium.WebDriver;
 
 public class ServiceDataPage {
     private final Mode mode;
-    private final WebDriver driver;
-
     private InputField deathDateField;
     private InputField deathPlaceField;
     private InputField birthPlaceField;
@@ -29,7 +27,6 @@ public class ServiceDataPage {
 
     public ServiceDataPage(WebDriver driver, Mode mode) {
         this.mode = mode;
-        this.driver = driver;
         switch (mode) {
             case DEATH:
                 this.deathDateField = new InputField(driver, "Дата смерти");
