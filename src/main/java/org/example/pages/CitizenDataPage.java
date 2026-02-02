@@ -1,5 +1,6 @@
 package org.example.pages;
 
+import org.example.elements.Button;
 import org.example.elements.InputField;
 import org.example.valueObjects.Applicant;
 import org.example.valueObjects.Citizen;
@@ -20,8 +21,7 @@ public class CitizenDataPage {
     private final InputField sexField;
     private final InputField registrationAddressField;
 
-    @FindBy(xpath = "//button[contains(text(),'Далее')]")
-    private WebElement proceedButton;
+    private final Button proceedButton;
 
     public CitizenDataPage(WebDriver driver) {
         this.driver = driver;
@@ -34,6 +34,7 @@ public class CitizenDataPage {
         this.passportNumberField = new InputField(driver, "Номер паспорта");
         this.registrationAddressField = new InputField(driver, "Адрес прописки");
 
+        this.proceedButton = new Button(driver, "Далее");
         PageFactory.initElements(driver, this);
     }
 

@@ -1,6 +1,6 @@
 package org.example.pages;
 
-import org.example.Mode;
+import org.example.valueObjects.Mode;
 import org.example.elements.Button;
 import org.openqa.selenium.WebDriver;
 

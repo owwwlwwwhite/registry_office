@@ -3,22 +3,24 @@ package org.example;
 import io.github.bonigarcia.wdm.WebDriverManager;
 import org.example.elements.Button;
 import org.example.pages.*;
-import org.example.valueObjects.Applicant;
-import org.example.valueObjects.Citizen;
-import org.example.valueObjects.Mode;
-import org.example.valueObjects.ServiceData;
-import org.junit.jupiter.api.*;
+import org.example.valueObjects.*;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.time.Duration;
 import java.util.Properties;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class CreateUserApplicationsTest {
-
+public class CheckApplicationsByAdminTest {
+    private static Properties testProperties;
     private static WebDriver driver;
     private final Applicant applicant = new Applicant("Фа", "Им", "Отчес", "1234567", "123456", "абвг");
     private final Citizen citizen = new Citizen("Фа", "Им", "Отчес", "01062026", "муж", "123456", "абвг");
@@ -40,7 +42,13 @@ public class CreateUserApplicationsTest {
             .Builder()
             .setBirthData("абвг", "аa", "аа", "аа", "аа")
             .build();
-
+    private final Admin adminData = new Admin(
+            "фф",
+            "фф",
+            "ффыыв",
+            "1234567",
+            "123456",
+            "01012000");
 
     @BeforeEach
     void setup() {
@@ -49,7 +57,7 @@ public class CreateUserApplicationsTest {
         driver = DriverManager.getInstance().getDriver();
         driver.manage().window().maximize();
 
-        Properties testProperties = new Properties();
+        testProperties = new Properties();
         InputStream inputStream = App.class
                 .getClassLoader()
                 .getResourceAsStream("test_auth.properties");
@@ -68,72 +76,72 @@ public class CreateUserApplicationsTest {
         driver.get(testProperties.getProperty("url"));
     }
 
-
-    @Test
-    void RegisterDeathApplication() {
-
-        Mode mode = Mode.DEATH;
-
-        new MainPage(driver).enterAsUser();
-        assertEquals("Фамилия *", driver.findElement(new By.ByXPath("//label[text()='Фамилия']")).getText());
-
-        new ApplicantDataPage(driver).fillFormAndSubmit(applicant);
-        assertEquals("Регистрация брака", new Button(driver, "Регистрация брака").getWebElement().getText());
-
-        new ChoiceOfService(driver).selectRegistration(mode);
-        assertEquals("Фамилия *", driver.findElement(new By.ByXPath("//label[text()='Фамилия']")).getText());
-
-        new CitizenDataPage(driver).fillFormAndSubmit(citizen);
-        assertEquals("Дата смерти *", driver.findElement(new By.ByXPath("//label[text()='Дата смерти']")).getText());
-
-        new ServiceDataPage(driver, mode).fillFormAndSubmit(serviceDeathData);
-        assertEquals("Создать новую заявку", driver.findElement(new By.ByXPath("//button[text()='Создать новую заявку']")).getText());
-    }
-
-    @Test
-    void registerBirthApplication() {
-        Mode mode = Mode.BIRTH;
-
-        new MainPage(driver).enterAsUser();
-        assertEquals("Фамилия *", driver.findElement(new By.ByXPath("//label[text()='Фамилия']")).getText());
-
-        new ApplicantDataPage(driver).fillFormAndSubmit(applicant);
-        assertEquals("Регистрация брака", new Button(driver, "Регистрация брака").getWebElement().getText());
-
-        new ChoiceOfService(driver).selectRegistration(mode);
-        assertEquals("Фамилия *", driver.findElement(new By.ByXPath("//label[text()='Фамилия']")).getText());
-
-        new CitizenDataPage(driver).fillFormAndSubmit(citizen);
-        assertEquals("Место рождения *", driver.findElement(new By.ByXPath("//label[text()='Место рождения']")).getText());
-
-        new ServiceDataPage(driver, mode).fillFormAndSubmit(serviceBirthData);
-        assertEquals("Создать новую заявку", driver.findElement(new By.ByXPath("//button[text()='Создать новую заявку']")).getText());
-    }
-
-    @Test
-    void registerMarriageApplication() {
-        Mode mode = Mode.MARRIAGE;
-
-        new MainPage(driver).enterAsUser();
-        assertEquals("Фамилия *", driver.findElement(new By.ByXPath("//label[text()='Фамилия']")).getText());
-
-        new ApplicantDataPage(driver).fillFormAndSubmit(applicant);
-        assertEquals("Регистрация брака", new Button(driver, "Регистрация брака").getWebElement().getText());
-
-        new ChoiceOfService(driver).selectRegistration(mode);
-        assertEquals("Фамилия *", driver.findElement(new By.ByXPath("//label[text()='Фамилия']")).getText());
-
-        new CitizenDataPage(driver).fillFormAndSubmit(citizen);
-        assertEquals("Дата регистрации *", driver.findElement(new By.ByXPath("//label[text()='Дата регистрации']")).getText());
-
-        new ServiceDataPage(driver, mode).fillFormAndSubmit(serviceMarriageData);
-        assertEquals("Создать новую заявку", driver.findElement(new By.ByXPath("//button[text()='Создать новую заявку']")).getText());
-    }
-
-
     @AfterAll
     static void exit() {
-
         DriverManager.getInstance().closeDriver();
+    }
+
+    private String createApplication(Mode mode, ServiceData serviceData) {
+
+        new MainPage(driver).enterAsUser();
+        assertEquals("Фамилия *", driver.findElement(new By.ByXPath("//label[text()='Фамилия']")).getText());
+
+        new ApplicantDataPage(driver).fillFormAndSubmit(applicant);
+        assertEquals("Регистрация брака", new Button(driver, "Регистрация брака").getWebElement().getText());
+
+        new ChoiceOfService(driver).selectRegistration(mode);
+        assertEquals("Фамилия *", driver.findElement(new By.ByXPath("//label[text()='Фамилия']")).getText());
+
+        new CitizenDataPage(driver).fillFormAndSubmit(citizen);
+        switch(mode) {
+            case MARRIAGE:
+                assertEquals("Дата регистрации *", driver.findElement(new By.ByXPath("//label[text()='Дата регистрации']")).getText());
+                break;
+            case BIRTH:
+                assertEquals("Место рождения *", driver.findElement(new By.ByXPath("//label[text()='Место рождения']")).getText());
+                break;
+            case DEATH:
+                assertEquals("Дата смерти *", driver.findElement(new By.ByXPath("//label[text()='Дата смерти']")).getText());
+                break;
+        }
+
+        new ServiceDataPage(driver, mode).fillFormAndSubmit(serviceData);
+        assertEquals("Создать новую заявку", driver.findElement(new By.ByXPath("//button[text()='Создать новую заявку']")).getText());
+
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        WebElement spanWithApplicationNumber = driver.findElement(new By.ByXPath("//span[contains(text(), 'отправлена на рассмотрение')]"));
+        return spanWithApplicationNumber.getText().split(" ")[3];
+    }
+
+    private boolean applicationNumberIsExist(String applicationNumber) {
+        driver.get(testProperties.getProperty("url"));
+        new MainPage(driver).enterAsAdmin();
+        assertEquals("Фамилия *", driver.findElement(new By.ByXPath("//label[text()='Фамилия']")).getText());
+
+        new AdminRegistrationPage(driver).fillFormAndSubmit(adminData);
+        assertEquals("Обновить", new Button(driver, "Обновить").getWebElement().getText());
+
+        return new ApplicationsAdministrationPage(driver).findApplicationByNumber(applicationNumber);
+    }
+
+    @Test
+    void checkMarriageApplicationCreation() {
+        String applicationNumber = createApplication(Mode.MARRIAGE, serviceMarriageData);
+
+        assertTrue(applicationNumberIsExist(applicationNumber));
+    }
+
+    @Test
+    void checkDeathApplicationCreation() {
+        String applicationNumber = createApplication(Mode.DEATH, serviceDeathData);
+
+        assertTrue(applicationNumberIsExist(applicationNumber));
+    }
+
+    @Test
+    void checkBirthApplicationCreation() {
+        String applicationNumber = createApplication(Mode.BIRTH, serviceBirthData);
+
+        assertTrue(applicationNumberIsExist(applicationNumber));
     }
 }

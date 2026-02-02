@@ -1,6 +1,6 @@
 package org.example.pages;
 
-import org.example.Mode;
+import org.example.valueObjects.Mode;
 import org.example.elements.Button;
 import org.example.elements.InputField;
 import org.example.valueObjects.ServiceData;
@@ -24,6 +24,7 @@ public class ServiceDataPage {
     private InputField spousePatronymicField;
     private InputField spouseBirthDateField;
     private InputField spousePassportNumberField;
+
     private final Button submitButton;
 
     public ServiceDataPage(WebDriver driver, Mode mode) {
