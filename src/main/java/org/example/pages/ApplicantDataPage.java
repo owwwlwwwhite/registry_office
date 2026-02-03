@@ -1,11 +1,12 @@
 package org.example.pages;
 
+import org.example.GlobalConstants;
 import org.example.elements.Button;
 import org.example.elements.InputField;
 import org.example.valueObjects.Applicant;
 import org.openqa.selenium.WebDriver;
 
-public class ApplicantDataPage {
+public class ApplicantDataPage extends GlobalConstants {
 
     private final InputField surnameField;
     private final InputField nameField;
@@ -17,14 +18,14 @@ public class ApplicantDataPage {
     private final Button proceedButton;
 
     public ApplicantDataPage(WebDriver driver) {
-        this.surnameField = new InputField(driver, "Фамилия");
-        this.nameField = new InputField(driver, "Имя");
-        this.patronymicField = new InputField(driver, "Отчество");
-        this.phoneNumberField = new InputField(driver, "Телефон");
-        this.passportNumberField = new InputField(driver, "Номер паспорта");
-        this.applicantAddressField = new InputField(driver, "Адрес прописки");
+        this.surnameField = new InputField(driver, SURNAME);
+        this.nameField = new InputField(driver, NAME);
+        this.patronymicField = new InputField(driver, PATRONYMIC);
+        this.phoneNumberField = new InputField(driver, PHONE_NUMBER);
+        this.passportNumberField = new InputField(driver, PASSPORT_NUMBER);
+        this.applicantAddressField = new InputField(driver, REGISTRATION_ADDRESS);
 
-        this.proceedButton = new Button(driver, "Далее");
+        this.proceedButton = new Button(driver, PROCEED_BUTTON);
     }
 
     public void fillFormAndSubmit(Applicant applicant) {

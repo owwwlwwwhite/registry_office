@@ -121,7 +121,7 @@ public class CheckApplicationsByAdminTest {
         new AdminRegistrationPage(driver).fillFormAndSubmit(adminData);
         assertEquals("Обновить", new Button(driver, "Обновить").getWebElement().getText());
 
-        return new ApplicationsAdministrationPage(driver).findApplicationByNumber(applicationNumber);
+        return new ApplicationsAdministrationPage(driver).isApplicationNumberEqualsExpected(applicationNumber);
     }
 
     @Test

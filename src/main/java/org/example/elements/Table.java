@@ -3,18 +3,11 @@ package org.example.elements;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import java.util.List;
 
 public class Table {
-    @FindBy(tagName = "table")  // основная таблица
-    private WebElement table;
-
-    @FindBy(xpath = "thead > tr")  // заголовки колонок
-    private WebElement headers;
-
     private final List<WebElement> rows;
 
     public Table(WebDriver driver) {
@@ -30,7 +23,7 @@ public class Table {
     public int findRowByColumnValue(int col, String value) {
         for (int i = 0; i < rows.size(); i++) {
             if (getCellText(i, col).equals(value)) {
-                return i+1;
+                return i + 1;
             }
         }
         return -1;

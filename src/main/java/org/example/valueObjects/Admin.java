@@ -5,7 +5,6 @@ public class Admin {
     private final String surnameField;
     private final String nameField;
     private final String patronymicField;
-
     private final String phoneNumberField;
     private final String passportNumberField;
     private final String birthDate;

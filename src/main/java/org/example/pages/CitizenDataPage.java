@@ -1,17 +1,17 @@
 package org.example.pages;
 
+import org.example.GlobalConstants;
 import org.example.elements.Button;
 import org.example.elements.InputField;
 import org.example.valueObjects.Citizen;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
-public class CitizenDataPage {
+public class CitizenDataPage extends GlobalConstants {
 
     private final InputField surnameField;
     private final InputField nameField;
     private final InputField patronymicField;
-
     private final InputField birthDate;
     private final InputField passportNumberField;
     private final InputField sexField;
@@ -20,15 +20,15 @@ public class CitizenDataPage {
     private final Button proceedButton;
 
     public CitizenDataPage(WebDriver driver) {
-        this.surnameField = new InputField(driver, "Фамилия");
-        this.nameField = new InputField(driver, "Имя");
-        this.patronymicField = new InputField(driver, "Отчество");
-        this.birthDate = new InputField(driver, "Дата рождения");
-        this.sexField = new InputField(driver, "Пол");
-        this.passportNumberField = new InputField(driver, "Номер паспорта");
-        this.registrationAddressField = new InputField(driver, "Адрес прописки");
+        this.surnameField = new InputField(driver, SURNAME);
+        this.nameField = new InputField(driver, NAME);
+        this.patronymicField = new InputField(driver, PATRONYMIC);
+        this.birthDate = new InputField(driver, BIRTH_DATE);
+        this.sexField = new InputField(driver, SEX);
+        this.passportNumberField = new InputField(driver, PASSPORT_NUMBER);
+        this.registrationAddressField = new InputField(driver, REGISTRATION_ADDRESS);
 
-        this.proceedButton = new Button(driver, "Далее");
+        this.proceedButton = new Button(driver, PROCEED_BUTTON);
         PageFactory.initElements(driver, this);
     }
 

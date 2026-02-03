@@ -1,19 +1,19 @@
 package org.example.pages;
 
+import org.example.GlobalConstants;
 import org.example.valueObjects.Mode;
 import org.example.elements.Button;
 import org.openqa.selenium.WebDriver;
 
-public class ChoiceOfService {
-
+public class ChoiceOfService extends GlobalConstants {
     private final Button deathRegistrationBtn;
     private final Button birthRegistrationBtn;
     private final Button marriageRegistrationBtn;
 
     public ChoiceOfService(WebDriver driver) {
-        deathRegistrationBtn = new Button(driver, "Регистрация смерти");
-        marriageRegistrationBtn = new Button(driver, "Регистрация брака");
-        birthRegistrationBtn = new Button(driver, "Регистрация рождения");
+        deathRegistrationBtn = new Button(driver, DEATH_REGISTRATION_BTN);
+        marriageRegistrationBtn = new Button(driver, MARRIAGE_REGISTRATION_BTN);
+        birthRegistrationBtn = new Button(driver, BIRTH_REGISTRATION_BTN);
     }
 
     public void selectRegistration(Mode reg) {
@@ -28,6 +28,5 @@ public class ChoiceOfService {
                 marriageRegistrationBtn.click();
                 break;
         }
-
     }
 }
