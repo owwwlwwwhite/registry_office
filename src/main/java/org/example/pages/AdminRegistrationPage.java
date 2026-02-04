@@ -1,12 +1,13 @@
 package org.example.pages;
 
-import org.example.GlobalConstants;
 import org.example.elements.Button;
 import org.example.elements.InputField;
 import org.example.valueObjects.Admin;
 import org.openqa.selenium.WebDriver;
 
-public class AdminRegistrationPage extends GlobalConstants {
+import static org.example.GlobalConstants.*;
+
+public class AdminRegistrationPage {
     private final InputField surnameField;
     private final InputField nameField;
     private final InputField patronymicField;

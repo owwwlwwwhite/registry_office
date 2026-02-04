@@ -1,13 +1,14 @@
 package org.example.pages;
 
-import org.example.GlobalConstants;
 import org.example.elements.Button;
 import org.example.elements.InputField;
 import org.example.valueObjects.Citizen;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.PageFactory;
 
-public class CitizenDataPage extends GlobalConstants {
+import static org.example.GlobalConstants.*;
+
+public class CitizenDataPage {
 
     private final InputField surnameField;
     private final InputField nameField;

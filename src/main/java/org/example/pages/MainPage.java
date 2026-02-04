@@ -4,7 +4,10 @@ import org.example.GlobalConstants;
 import org.example.elements.Button;
 import org.openqa.selenium.WebDriver;
 
-public class MainPage extends GlobalConstants {
+import static org.example.GlobalConstants.ENTER_AS_ADMIN_BUTTON;
+import static org.example.GlobalConstants.ENTER_AS_USER_BUTTON;
+
+public class MainPage {
 
     private final Button enterAsUserButton;
     private final Button enterAsAdminButton;

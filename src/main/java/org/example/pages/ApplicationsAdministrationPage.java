@@ -13,7 +13,7 @@ public class ApplicationsAdministrationPage {
     }
 
     public boolean isApplicationNumberEqualsExpected(String applicationNumber) {
-        int row = table.findRowByColumnValue(1, applicationNumber);
-        return table.getCellText(row, 1).equals(applicationNumber);
+        System.out.println(table.getCellText(1, 1));
+        return table.getCellText(1, 1).equals(applicationNumber);
     }
 }

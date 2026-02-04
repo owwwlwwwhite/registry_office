@@ -1,12 +1,13 @@
 package org.example.pages;
 
-import org.example.GlobalConstants;
 import org.example.elements.Button;
 import org.example.elements.InputField;
 import org.example.valueObjects.Applicant;
 import org.openqa.selenium.WebDriver;
 
-public class ApplicantDataPage extends GlobalConstants {
+import static org.example.GlobalConstants.*;
+
+public class ApplicantDataPage {
 
     private final InputField surnameField;
     private final InputField nameField;

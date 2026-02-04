@@ -1,16 +1,17 @@
 package org.example.pages;
 
-import org.example.GlobalConstants;
 import org.example.valueObjects.Mode;
 import org.example.elements.Button;
 import org.openqa.selenium.WebDriver;
 
-public class ChoiceOfService extends GlobalConstants {
+import static org.example.GlobalConstants.*;
+
+public class ChoiceOfServicePage {
     private final Button deathRegistrationBtn;
     private final Button birthRegistrationBtn;
     private final Button marriageRegistrationBtn;
 
-    public ChoiceOfService(WebDriver driver) {
+    public ChoiceOfServicePage(WebDriver driver) {
         deathRegistrationBtn = new Button(driver, DEATH_REGISTRATION_BTN);
         marriageRegistrationBtn = new Button(driver, MARRIAGE_REGISTRATION_BTN);
         birthRegistrationBtn = new Button(driver, BIRTH_REGISTRATION_BTN);
