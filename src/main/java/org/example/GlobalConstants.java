@@ -18,4 +18,6 @@ public class GlobalConstants {
 
     public static final String ENTER_AS_USER_BUTTON = "Войти как пользователь";
     public static final String ENTER_AS_ADMIN_BUTTON = "Войти как администратор";
+
+    public static final String CREATE_NEW_APPLICATION_BUTTON = "Создать новую заявку";
 }

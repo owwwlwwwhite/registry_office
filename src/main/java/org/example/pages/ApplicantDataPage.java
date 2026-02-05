@@ -1,5 +1,6 @@
 package org.example.pages;
 
+import io.qameta.allure.Step;
 import org.example.elements.Button;
 import org.example.elements.InputField;
 import org.example.valueObjects.Applicant;
@@ -29,6 +30,7 @@ public class ApplicantDataPage {
         this.proceedButton = new Button(driver, PROCEED_BUTTON);
     }
 
+    @Step("Заполнить форму Данные заявителя данными '{applicant}' и нажать кнопку продолжения")
     public void fillFormAndSubmit(Applicant applicant) {
         surnameField.enterText(applicant.getSurnameField());
         nameField.enterText(applicant.getNameField());

@@ -1,5 +1,6 @@
 package org.example.pages;
 
+import io.qameta.allure.Step;
 import org.example.elements.Table;
 import org.openqa.selenium.WebDriver;
 
@@ -12,7 +13,8 @@ public class ApplicationsAdministrationPage {
         this.table = new Table(driver);
     }
 
-    public String getApplicationNumberFromTable(String applicationNumber) {
+    @Step("Получить номер первой заявки в таблице администрирования заявок")
+    public String getApplicationNumberFromTable() {
         return table.getCellText(1, 1);
     }
 }

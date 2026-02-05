@@ -38,6 +38,19 @@
     </dependencyManagement>
 
     <dependencies>
+        <!-- AspectJ Weaver для @Step -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.22</version>
+        </dependency>
+        <!-- JUnit Platform Launcher -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>1.11.3</version>
+        </dependency>
+
         <!-- JUnit 5 полный стек -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -74,6 +87,10 @@
             <version>2.0.16</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-java-commons</artifactId>
+        </dependency>
     </dependencies>
 
     <build>
@@ -101,6 +118,16 @@
                         <version>1.11.3</version>
                     </dependency>
                 </dependencies>
+                <configuration>
+                    <argLine>
+                        -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/1.9.22/aspectjweaver-1.9.22.jar
+                        -Dfile.encoding=UTF-8
+                    </argLine>
+                    <systemPropertyVariables>
+                        <file.encoding>UTF-8</file.encoding>
+                        <sun.jnu.encoding>UTF-8</sun.jnu.encoding>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
 
             <!-- Allure Maven Plugin -->

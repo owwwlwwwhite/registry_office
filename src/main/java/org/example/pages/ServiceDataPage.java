@@ -1,5 +1,6 @@
 package org.example.pages;
 
+import io.qameta.allure.Step;
 import org.example.valueObjects.Mode;
 import org.example.elements.Button;
 import org.example.elements.InputField;
@@ -52,6 +53,7 @@ public class ServiceDataPage {
         this.submitButton = new Button(driver, "Завершить");
     }
 
+    @Step("Заполнить форму Данные услуги данными '{serviceData}' и нажать кнопку продолжения")
     public void fillFormAndSubmit(ServiceData serviceData) {
         switch (mode) {
             case DEATH:

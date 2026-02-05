@@ -1,5 +1,6 @@
 package org.example.pages;
 
+import io.qameta.allure.Step;
 import org.example.elements.Button;
 import org.openqa.selenium.WebDriver;
 
@@ -16,9 +17,11 @@ public class MainPage {
         enterAsAdminButton = new Button(driver, ENTER_AS_ADMIN_BUTTON);
     }
 
+    @Step("Войти как пользователь")
     public void enterAsUser() {
         enterAsUserButton.click();
     }
+    @Step("Войти как Администратор")
     public void enterAsAdmin() {
         enterAsAdminButton.click();
     }

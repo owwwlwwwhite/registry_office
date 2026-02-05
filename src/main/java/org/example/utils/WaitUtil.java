@@ -25,26 +25,18 @@ public class WaitUtil {
         getWait(driver, timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
+    public static void waitForVisible(WebDriver driver, WebElement element, Duration timeout) {
+        getWait(driver, timeout).until(ExpectedConditions.visibilityOf(element));
+    }
+
     public static WebElement waitForPresenceOfElement(WebDriver driver, By locator, Duration timeout) {
         return getWait(driver, timeout).until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
-    public static Boolean waitForApplicationNumberLoad(WebDriver driver, By locator, Duration timeout) {
-        return new WebDriverWait(driver, timeout).until(d -> {
+    public static void waitForApplicationNumberLoad(WebDriver driver, By locator, Duration timeout) {
+        new WebDriverWait(driver, timeout).until(d -> {
             WebElement span = driver.findElement(locator);
             return Pattern.matches(".*\\d+.*", span.getText());
         });
-    }
-
-    public static WebElement waitForVisible(WebDriver driver, WebElement element) {
-        return getWait(driver).until(ExpectedConditions.visibilityOf(element));
-    }
-
-    public static boolean waitForTextPresent(WebDriver driver, By locator, String text) {
-        return getWait(driver).until(ExpectedConditions.textToBePresentInElementLocated(locator, text));
-    }
-
-    public static boolean waitForTextPresent(WebDriver driver, WebElement element, String text) {
-        return getWait(driver).until(ExpectedConditions.textToBePresentInElement(element, text));
     }
 }

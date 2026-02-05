@@ -41,3 +41,4 @@ build/
 /src/test/resources/test_auth.properties
 /src/main/resources/test_auth.properties
 /.idea/
+/.allure/

@@ -5,7 +5,7 @@ import org.example.valueObjects.Applicant;
 import org.example.valueObjects.Citizen;
 import org.example.valueObjects.ServiceData;
 
-public class DataProviderUtil {
+public class DataFactoryUtil {
     protected final static Applicant applicant = new Applicant("Фа", "Им", "Отчес", "1234567", "123456", "абвг");
     protected final static Citizen citizen = new Citizen("Фа", "Им", "Отчес", "01062026", "муж", "123456", "абвг");
     protected final static ServiceData serviceDeathData = new ServiceData
