@@ -11,7 +11,7 @@ public class Button {
     private final WebElement element;
 
     public Button(WebDriver driver, String fieldName){
-        WaitUtil.waitForVisible(driver, By.cssSelector("//button[contains(text(),'" + fieldName + "')]"), Duration.ofSeconds(5));
+        WaitUtil.waitForVisible(driver, By.xpath("//button[contains(text(),'" + fieldName + "')]"), Duration.ofSeconds(10));
         this.element = driver.findElement(new By.ByXPath("//button[contains(text(),'" + fieldName + "')]"));
     }
 

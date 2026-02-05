@@ -5,6 +5,7 @@ import org.example.utils.DataProviderUtil;
 import org.example.valueObjects.*;
 import org.junit.jupiter.api.Test;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class CheckApplicationsByAdminTest extends BaseTest {
@@ -18,32 +19,32 @@ public class CheckApplicationsByAdminTest extends BaseTest {
         return new ApplicationStatusPage(driver).getApplicationNumber();
     }
 
-    private boolean applicationNumberIsExist(String applicationNumber) {
+    private String findApplicationNumber(String applicationNumber) {
         driver.get(testProperties.getProperty("url"));
 
         new MainPage(driver).enterAsAdmin();
         new AdminRegistrationPage(driver).fillFormAndSubmit(DataProviderUtil.getAdminData());
-        return new ApplicationsAdministrationPage(driver).isApplicationNumberEqualsExpected(applicationNumber);
+        return new ApplicationsAdministrationPage(driver).getApplicationNumberFromTable(applicationNumber);
     }
 
     @Test
     void checkMarriageApplicationCreation() {
         String applicationNumber = createApplication(Mode.MARRIAGE, DataProviderUtil.getServiceMarriageData());
 
-        assertTrue(applicationNumberIsExist(applicationNumber));
+        assertEquals(applicationNumber, findApplicationNumber(applicationNumber));
     }
 
     @Test
     void checkDeathApplicationCreation() {
         String applicationNumber = createApplication(Mode.DEATH, DataProviderUtil.getServiceDeathData());
 
-        assertTrue(applicationNumberIsExist(applicationNumber));
+        assertEquals(applicationNumber, findApplicationNumber(applicationNumber));
     }
 
     @Test
     void checkBirthApplicationCreation() {
         String applicationNumber = createApplication(Mode.BIRTH, DataProviderUtil.getServiceBirthData());
 
-        assertTrue(applicationNumberIsExist(applicationNumber));
+        assertEquals(applicationNumber, findApplicationNumber(applicationNumber));
     }
 }

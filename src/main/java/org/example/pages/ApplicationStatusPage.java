@@ -17,7 +17,7 @@ public class ApplicationStatusPage {
     }
 
     public ApplicationStatusPage(WebDriver driver) {
-        WaitUtil.waitForVisible(driver, By.xpath("//span[contains(text(), 'отправлена на рассмотрение')]"), Duration.ofSeconds(5));
+        WaitUtil.waitForApplicationNumberLoad(driver, By.xpath("//span[contains(text(), 'отправлена на рассмотрение')]"), Duration.ofSeconds(10));
         WebElement spanWithApplicationNumber = driver.findElement(By.xpath("//span[contains(text(), 'отправлена на рассмотрение')]"));
         this.applicationNumber = spanWithApplicationNumber.getText().split(" ")[3];
         this.createNewApplicationBtn = new Button(driver, "Создать новую заявку");

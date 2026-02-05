@@ -3,6 +3,7 @@ package org.example.utils;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
 import java.time.Duration;
+import java.util.regex.Pattern;
 
 public class WaitUtil {
 
@@ -20,12 +21,19 @@ public class WaitUtil {
                 .ignoring(NoSuchElementException.class);
     }
 
-    public static WebElement waitForVisible(WebDriver driver, By locator, Duration timeout) {
-        return getWait(driver, timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
+    public static void waitForVisible(WebDriver driver, By locator, Duration timeout) {
+        getWait(driver, timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
     }
 
     public static WebElement waitForPresenceOfElement(WebDriver driver, By locator, Duration timeout) {
         return getWait(driver, timeout).until(ExpectedConditions.presenceOfElementLocated(locator));
+    }
+
+    public static Boolean waitForApplicationNumberLoad(WebDriver driver, By locator, Duration timeout) {
+        return new WebDriverWait(driver, timeout).until(d -> {
+            WebElement span = driver.findElement(locator);
+            return Pattern.matches(".*\\d+.*", span.getText());
+        });
     }
 
     public static WebElement waitForVisible(WebDriver driver, WebElement element) {

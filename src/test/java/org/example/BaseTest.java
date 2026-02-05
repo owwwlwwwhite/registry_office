@@ -4,6 +4,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.example.pages.*;
 import org.example.valueObjects.*;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 
@@ -12,15 +13,15 @@ import java.io.InputStream;
 import java.util.Properties;
 
 public class BaseTest {
-    protected static WebDriver driver;
-    protected static Properties testProperties;
+    protected WebDriver driver;
+    protected Properties testProperties;
 
     protected MainPage mainPage;
 
     @BeforeEach
     void setup() {
-        WebDriverManager.chromedriver().setup();
 
+        WebDriverManager.chromedriver().setup();
         driver = DriverManager.getInstance().getDriver();
         driver.manage().window().maximize();
 

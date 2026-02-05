@@ -29,6 +29,7 @@ public class DriverManager {
         if (driver != null) {
             driver.close();
             driver = null;
+            instance = null;
         }
     }
 }

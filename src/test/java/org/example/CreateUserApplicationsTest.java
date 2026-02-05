@@ -10,7 +10,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class CreateUserApplicationsTest extends BaseTest {
     @Test
     void RegisterDeathApplication() {
-        System.out.println("Enter 1 test");
         mainPage.enterAsUser();
         new ApplicantDataPage(driver).fillFormAndSubmit(DataProviderUtil.getApplicant());
         new ChoiceOfServicePage(driver).selectRegistration(Mode.DEATH);

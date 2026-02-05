@@ -12,7 +12,7 @@ public class ApplicationsAdministrationPage {
         this.table = new Table(driver);
     }
 
-    public boolean isApplicationNumberEqualsExpected(String applicationNumber) {
-        return table.getCellText(1, 1).equals(applicationNumber);
+    public String getApplicationNumberFromTable(String applicationNumber) {
+        return table.getCellText(1, 1);
     }
 }
