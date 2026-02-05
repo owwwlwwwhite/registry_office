@@ -1,10 +1,9 @@
 package org.example;
 
-import org.example.elements.Button;
 import org.example.pages.*;
+import org.example.utils.DataProviderUtil;
 import org.example.valueObjects.Mode;
 import org.junit.jupiter.api.*;
-import org.openqa.selenium.By;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -13,30 +12,33 @@ public class CreateUserApplicationsTest extends BaseTest {
     void RegisterDeathApplication() {
         System.out.println("Enter 1 test");
         mainPage.enterAsUser();
-        new ApplicantDataPage(driver).fillFormAndSubmit(applicant);
+        new ApplicantDataPage(driver).fillFormAndSubmit(DataProviderUtil.getApplicant());
         new ChoiceOfServicePage(driver).selectRegistration(Mode.DEATH);
-        new CitizenDataPage(driver).fillFormAndSubmit(citizen);
-        new ServiceDataPage(driver, Mode.DEATH).fillFormAndSubmit(serviceDeathData);
-        assertEquals("Создать новую заявку", driver.findElement(new By.ByXPath("//button[text()='Создать новую заявку']")).getText());
+        new CitizenDataPage(driver).fillFormAndSubmit(DataProviderUtil.getCitizen());
+        new ServiceDataPage(driver, Mode.DEATH).fillFormAndSubmit(DataProviderUtil.getServiceDeathData());
+        ApplicationStatusPage applicationStatusPage = new ApplicationStatusPage(driver);
+        assertEquals("Создать новую заявку", applicationStatusPage.getCreateNewApplicationBtn().getText());
     }
 
     @Test
     void registerBirthApplication() {
         mainPage.enterAsUser();
-        new ApplicantDataPage(driver).fillFormAndSubmit(applicant);
+        new ApplicantDataPage(driver).fillFormAndSubmit(DataProviderUtil.getApplicant());
         new ChoiceOfServicePage(driver).selectRegistration(Mode.BIRTH);
-        new CitizenDataPage(driver).fillFormAndSubmit(citizen);
-        new ServiceDataPage(driver, Mode.BIRTH).fillFormAndSubmit(serviceBirthData);
-        assertEquals("Создать новую заявку", driver.findElement(new By.ByXPath("//button[text()='Создать новую заявку']")).getText());
+        new CitizenDataPage(driver).fillFormAndSubmit(DataProviderUtil.getCitizen());
+        new ServiceDataPage(driver, Mode.BIRTH).fillFormAndSubmit(DataProviderUtil.getServiceBirthData());
+        ApplicationStatusPage applicationStatusPage = new ApplicationStatusPage(driver);
+        assertEquals("Создать новую заявку", applicationStatusPage.getCreateNewApplicationBtn().getText());
     }
 
     @Test
     void registerMarriageApplication() {
         mainPage.enterAsUser();
-        new ApplicantDataPage(driver).fillFormAndSubmit(applicant);
+        new ApplicantDataPage(driver).fillFormAndSubmit(DataProviderUtil.getApplicant());
         new ChoiceOfServicePage(driver).selectRegistration(Mode.MARRIAGE);
-        new CitizenDataPage(driver).fillFormAndSubmit(citizen);
-        new ServiceDataPage(driver, Mode.MARRIAGE).fillFormAndSubmit(serviceMarriageData);
-        assertEquals("Создать новую заявку", driver.findElement(new By.ByXPath("//button[text()='Создать новую заявку']")).getText());
+        new CitizenDataPage(driver).fillFormAndSubmit(DataProviderUtil.getCitizen());
+        new ServiceDataPage(driver, Mode.MARRIAGE).fillFormAndSubmit(DataProviderUtil.getServiceMarriageData());
+        ApplicationStatusPage applicationStatusPage = new ApplicationStatusPage(driver);
+        assertEquals("Создать новую заявку", applicationStatusPage.getCreateNewApplicationBtn().getText());
     }
 }

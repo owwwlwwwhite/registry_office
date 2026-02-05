@@ -1,4 +1,4 @@
-package org.example;
+package org.example.utils;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
@@ -22,6 +22,10 @@ public class WaitUtil {
 
     public static WebElement waitForVisible(WebDriver driver, By locator, Duration timeout) {
         return getWait(driver, timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
+    }
+
+    public static WebElement waitForPresenceOfElement(WebDriver driver, By locator, Duration timeout) {
+        return getWait(driver, timeout).until(ExpectedConditions.presenceOfElementLocated(locator));
     }
 
     public static WebElement waitForVisible(WebDriver driver, WebElement element) {

@@ -1,5 +1,6 @@
 package org.example.elements;
 
+import org.example.utils.WaitUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -13,6 +14,7 @@ public class Table {
 
     public Table(WebDriver driver) {
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        WaitUtil.waitForVisible(driver, By.cssSelector("thead ~ tr"), Duration.ofSeconds(5));
         rows = driver.findElements(new By.ByCssSelector("thead ~ tr"));
     }
 

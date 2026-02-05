@@ -1,6 +1,5 @@
 package org.example.pages;
 
-import org.example.GlobalConstants;
 import org.example.elements.Button;
 import org.openqa.selenium.WebDriver;
 

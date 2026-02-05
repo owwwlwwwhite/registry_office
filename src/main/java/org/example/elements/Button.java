@@ -1,5 +1,6 @@
 package org.example.elements;
 
+import org.example.utils.WaitUtil;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -7,10 +8,10 @@ import org.openqa.selenium.WebElement;
 import java.time.Duration;
 
 public class Button {
-    private WebElement element;
+    private final WebElement element;
 
     public Button(WebDriver driver, String fieldName){
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+        WaitUtil.waitForVisible(driver, By.cssSelector("//button[contains(text(),'" + fieldName + "')]"), Duration.ofSeconds(5));
         this.element = driver.findElement(new By.ByXPath("//button[contains(text(),'" + fieldName + "')]"));
     }
 
@@ -18,7 +19,7 @@ public class Button {
         element.click();
     }
 
-    public WebElement getWebElement() {
-        return element;
+    public String getText() {
+        return element.getText();
     }
 }
