@@ -14,7 +14,7 @@ public class App
 {
     static private WebDriver driver;
 
-    public static void main( String[] args )
+    public static void cool( String[] args )
     {
         initializeDriver();
 
