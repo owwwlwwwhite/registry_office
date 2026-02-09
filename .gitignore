@@ -42,3 +42,4 @@ build/
 /src/main/resources/test_auth.properties
 /.idea/
 /.allure/
+/app.log

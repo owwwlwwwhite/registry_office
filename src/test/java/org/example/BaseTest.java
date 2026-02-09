@@ -1,8 +1,7 @@
 package org.example;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import lombok.extern.log4j.Log4j2;
 import org.example.pages.*;
 import org.example.valueObjects.*;
 import org.junit.jupiter.api.AfterAll;
@@ -13,11 +12,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+@Log4j2
 public class BaseTest {
     protected WebDriver driver;
     protected Properties testProperties;
-
-    protected static final Logger testLogger = LogManager.getLogger(BaseTest.class);
 
     protected MainPage mainPage;
     protected AdminRegistrationPage adminRegistrationPage;
@@ -36,7 +34,7 @@ public class BaseTest {
         WebDriverManager.chromedriver().setup();
         driver = DriverManager.getInstance().getDriver();
         driver.manage().window().maximize();
-        testLogger.info("Setup driver");
+        log.info("Setup driver");
 
         testProperties = new Properties();
         InputStream inputStream = App.class
@@ -44,7 +42,7 @@ public class BaseTest {
                 .getResourceAsStream("test_auth.properties");
 
         if (inputStream == null) {
-            testLogger.fatal("Файл test_auth.properties не найден в src/test/resources/");
+            log.fatal("Файл test_auth.properties не найден в src/test/resources/");
             throw new RuntimeException("Файл test_auth.properties не найден в src/test/resources/");
         }
 
@@ -52,11 +50,11 @@ public class BaseTest {
             testProperties.load(inputStream);
             inputStream.close();
         } catch (IOException e) {
-            testLogger.fatal("io error - marriage_application.before");
+            log.fatal("io error - marriage_application.before");
         }
 
         driver.get(testProperties.getProperty("url"));
-        testLogger.info("Open Main page");
+        log.info("Open Main page");
 
         mainPage = new MainPage(driver);
         adminRegistrationPage = new AdminRegistrationPage(driver);
@@ -69,12 +67,11 @@ public class BaseTest {
         deathServiceDataPage = new ServiceDataPage(driver, Mode.DEATH);
         birthServiceDataPage = new ServiceDataPage(driver, Mode.BIRTH);
 
-        testLogger.info("Initialized all pages");
+        log.info("Initialized all pages");
     }
 
     @AfterAll
     static void exit() {
         DriverManager.getInstance().closeDriver();
-        testLogger.info("close driver");
     }
 }

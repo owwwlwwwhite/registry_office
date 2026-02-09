@@ -16,7 +16,7 @@ public class ApplicationStatusPage {
 
     @Step("Достать номер заявки из страницы статуса заявки")
     public String getApplicationNumber() {
-        WaitUtil.waitForApplicationNumberLoad(driver, By.xpath("//span[contains(text(), 'отправлена на рассмотрение')]"), Duration.ofSeconds(10));
+        WaitUtil.waitForPatternConsists(driver, By.xpath("//span[contains(text(), 'отправлена на рассмотрение')]"), ".*\\d+.*", Duration.ofSeconds(10));
         WebElement spanWithApplicationNumber = driver.findElement(By.xpath("//span[contains(text(), 'отправлена на рассмотрение')]"));
         return spanWithApplicationNumber.getText().split(" ")[3];
     }
