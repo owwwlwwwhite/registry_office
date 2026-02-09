@@ -1,6 +1,8 @@
 package org.example;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.example.pages.*;
 import org.example.valueObjects.*;
 import org.junit.jupiter.api.AfterAll;
@@ -14,6 +16,8 @@ import java.util.Properties;
 public class BaseTest {
     protected WebDriver driver;
     protected Properties testProperties;
+
+    protected static final Logger testLogger = LogManager.getLogger(BaseTest.class);
 
     protected MainPage mainPage;
     protected AdminRegistrationPage adminRegistrationPage;
@@ -32,6 +36,7 @@ public class BaseTest {
         WebDriverManager.chromedriver().setup();
         driver = DriverManager.getInstance().getDriver();
         driver.manage().window().maximize();
+        testLogger.info("Setup driver");
 
         testProperties = new Properties();
         InputStream inputStream = App.class
@@ -39,6 +44,7 @@ public class BaseTest {
                 .getResourceAsStream("test_auth.properties");
 
         if (inputStream == null) {
+            testLogger.fatal("Файл test_auth.properties не найден в src/test/resources/");
             throw new RuntimeException("Файл test_auth.properties не найден в src/test/resources/");
         }
 
@@ -46,10 +52,11 @@ public class BaseTest {
             testProperties.load(inputStream);
             inputStream.close();
         } catch (IOException e) {
-            System.out.println("io error - marriage_application.before");
+            testLogger.fatal("io error - marriage_application.before");
         }
 
         driver.get(testProperties.getProperty("url"));
+        testLogger.info("Open Main page");
 
         mainPage = new MainPage(driver);
         adminRegistrationPage = new AdminRegistrationPage(driver);
@@ -61,11 +68,13 @@ public class BaseTest {
         marriageServiceDataPage = new ServiceDataPage(driver, Mode.MARRIAGE);
         deathServiceDataPage = new ServiceDataPage(driver, Mode.DEATH);
         birthServiceDataPage = new ServiceDataPage(driver, Mode.BIRTH);
+
+        testLogger.info("Initialized all pages");
     }
 
     @AfterAll
     static void exit() {
         DriverManager.getInstance().closeDriver();
+        testLogger.info("close driver");
     }
-
 }

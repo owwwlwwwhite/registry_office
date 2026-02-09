@@ -3,8 +3,6 @@ package org.example;
 import io.qameta.allure.Link;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 import org.example.utils.DataFactoryUtil;
 import org.example.valueObjects.Mode;
 import org.junit.jupiter.api.*;
@@ -14,24 +12,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DisplayName("Раздел Пользователя")
 public class CreateUserApplicationsTest extends BaseTest {
 
-    private static final Logger testLogger = LogManager.getLogger(CreateUserApplicationsTest.class);
 
     @Test
     @Severity(SeverityLevel.CRITICAL)
     @Link(url = "https://app.qase.io/project/ZDYS?suite=3&tab=&previewMode=side&case=478")
     @DisplayName("Проверка успешного заполнения заявки на регистрацию смерти")
     void RegisterDeathApplication() {
-        testLogger.info("Start RegisterDeathApplication test");
         mainPage.enterAsUser();
-        testLogger.info("Entered as user");
         applicantDataPage.fillFormAndSubmit(DataFactoryUtil.getApplicant());
-        testLogger.info("Filled and submitted applicant data form");
         choiceOfServicePage.selectRegistration(Mode.DEATH);
-        testLogger.info("Selected death service");
         citizenDataPage.fillFormAndSubmit(DataFactoryUtil.getCitizen());
-        testLogger.info("Filled and submitted citizen data form");
         deathServiceDataPage.fillFormAndSubmit(DataFactoryUtil.getServiceDeathData());
-        testLogger.info("Filled and submitted death service form");
         assertEquals("Создать новую заявку", applicationStatusPage.getCreateNewApplicationBtnText());
     }
 
