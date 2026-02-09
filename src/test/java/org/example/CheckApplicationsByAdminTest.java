@@ -1,5 +1,8 @@
 package org.example;
 
+import io.qameta.allure.Link;
+import io.qameta.allure.Severity;
+import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Step;
 import org.example.pages.ApplicationStatusPage;
 import org.example.utils.DataFactoryUtil;
@@ -12,8 +15,8 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @DisplayName("Раздел Администратора")
 public class CheckApplicationsByAdminTest extends BaseTest {
 
-    @Step("Найти заявку по номеру '{applicationNumber}'")
-    public String findApplicationNumber(String applicationNumber) {
+    @Step("Найти заявку в таблице администрирования заявок")
+    public String findApplicationNumber() {
         driver.get(testProperties.getProperty("url"));
 
         mainPage.enterAsAdmin();
@@ -42,26 +45,32 @@ public class CheckApplicationsByAdminTest extends BaseTest {
     }
 
     @Test
-    @DisplayName("Проверка отображения заявки на регистрацию брака в панели администратора")
-    void checkMarriageApplicationCreation() {
-        String applicationNumber = createApplication(Mode.MARRIAGE, DataFactoryUtil.getServiceMarriageData());
-
-        assertEquals(applicationNumber, findApplicationNumber(applicationNumber));
-    }
-
-    @Test
-    @DisplayName("Проверка отображения заявки на регистрацию смерти в панели администратора")
-    void checkDeathApplicationCreation() {
-        String applicationNumber = createApplication(Mode.DEATH, DataFactoryUtil.getServiceDeathData());
-
-        assertEquals(applicationNumber, findApplicationNumber(applicationNumber));
-    }
-
-    @Test
+    @Severity(SeverityLevel.CRITICAL)
+    @Link(url = "https://app.qase.io/project/ZDYS?suite=102&tab=&previewMode=side&case=480")
     @DisplayName("Проверка отображения заявки на регистрацию рождения в панели администратора")
     void checkBirthApplicationCreation() {
         String applicationNumber = createApplication(Mode.BIRTH, DataFactoryUtil.getServiceBirthData());
 
-        assertEquals(applicationNumber, findApplicationNumber(applicationNumber));
+        assertEquals(applicationNumber, findApplicationNumber());
+    }
+
+    @Test
+    @Severity(SeverityLevel.CRITICAL)
+    @DisplayName("Проверка отображения заявки на регистрацию брака в панели администратора")
+    @Link(url = "https://app.qase.io/project/ZDYS?suite=102&tab=&previewMode=side&case=479")
+    void checkMarriageApplicationCreation() {
+        String applicationNumber = createApplication(Mode.MARRIAGE, DataFactoryUtil.getServiceMarriageData());
+
+        assertEquals(applicationNumber, findApplicationNumber());
+    }
+
+    @Test
+    @Severity(SeverityLevel.CRITICAL)
+    @DisplayName("Проверка отображения заявки на регистрацию смерти в панели администратора")
+    @Link(url = "https://app.qase.io/project/ZDYS?suite=102&tab=&previewMode=side&case=481")
+    void checkDeathApplicationCreation() {
+        String applicationNumber = createApplication(Mode.DEATH, DataFactoryUtil.getServiceDeathData());
+
+        assertEquals(applicationNumber, findApplicationNumber());
     }
 }

@@ -14,7 +14,7 @@ import java.util.Properties;
 public class BaseTest {
     protected WebDriver driver;
     protected Properties testProperties;
-    protected ApplicationSteps applicationSteps;
+
     protected MainPage mainPage;
     protected AdminRegistrationPage adminRegistrationPage;
     protected ApplicantDataPage applicantDataPage;
@@ -61,7 +61,6 @@ public class BaseTest {
         marriageServiceDataPage = new ServiceDataPage(driver, Mode.MARRIAGE);
         deathServiceDataPage = new ServiceDataPage(driver, Mode.DEATH);
         birthServiceDataPage = new ServiceDataPage(driver, Mode.BIRTH);
-//        applicationSteps = new ApplicationSteps(driver);
     }
 
     @AfterAll

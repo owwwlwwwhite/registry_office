@@ -5,7 +5,6 @@ import org.example.elements.Button;
 import org.example.elements.InputField;
 import org.example.valueObjects.Citizen;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
 
 import static org.example.GlobalConstants.*;
 
