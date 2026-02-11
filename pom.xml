@@ -24,9 +24,10 @@
         <maven.surefire.version>3.3.1</maven.surefire.version>
     </properties>
 
-    <!-- Allure BOM для управления версиями -->
+
     <dependencyManagement>
         <dependencies>
+            <!-- Allure BOM для управления версиями -->
             <dependency>
                 <groupId>io.qameta.allure</groupId>
                 <artifactId>allure-bom</artifactId>
@@ -34,10 +35,29 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.apache.logging.log4j</groupId>
+                <artifactId>log4j-bom</artifactId>
+                <version>2.20.0</version> <scope>import</scope>
+                <type>pom</type>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
+        <!-- AspectJ Weaver для @Step -->
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.9.22</version>
+        </dependency>
+        <!-- JUnit Platform Launcher -->
+        <dependency>
+            <groupId>org.junit.platform</groupId>
+            <artifactId>junit-platform-launcher</artifactId>
+            <version>1.11.3</version>
+        </dependency>
+
         <!-- JUnit 5 полный стек -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
@@ -67,13 +87,30 @@
             <version>${webdrivermanager.version}</version>
         </dependency>
 
-        <!-- SLF4J для логирования (фиксит предупреждение) -->
+        <!-- Log4j для логирования -->
         <dependency>
-            <groupId>org.slf4j</groupId>
-            <artifactId>slf4j-simple</artifactId>
-            <version>2.0.16</version>
-            <scope>test</scope>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
         </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+        </dependency>
+
+        <!-- allure для отчетов -->
+        <dependency>
+            <groupId>io.qameta.allure</groupId>
+            <artifactId>allure-java-commons</artifactId>
+        </dependency>
+
+        <!-- lombok для сокращения шаблонного кода -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.32</version>
+            <scope>provided</scope>
+        </dependency>
+
     </dependencies>
 
     <build>
@@ -101,6 +138,16 @@
                         <version>1.11.3</version>
                     </dependency>
                 </dependencies>
+                <configuration>
+                    <argLine>
+                        -javaagent:${settings.localRepository}/org/aspectj/aspectjweaver/1.9.22/aspectjweaver-1.9.22.jar
+                        -Dfile.encoding=UTF-8
+                    </argLine>
+                    <systemPropertyVariables>
+                        <file.encoding>UTF-8</file.encoding>
+                        <sun.jnu.encoding>UTF-8</sun.jnu.encoding>
+                    </systemPropertyVariables>
+                </configuration>
             </plugin>
 
             <!-- Allure Maven Plugin -->

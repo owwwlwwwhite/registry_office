@@ -1,5 +1,6 @@
 package org.example.pages;
 
+import io.qameta.allure.Step;
 import org.example.elements.Button;
 import org.example.elements.InputField;
 import org.example.valueObjects.Admin;
@@ -27,6 +28,7 @@ public class AdminRegistrationPage {
         this.proceedButton = new Button(driver, PROCEED_BUTTON);
     }
 
+    @Step("Заполнить форму Данные регистрации админа данными и нажать кнопку продолжения")
     public void fillFormAndSubmit(Admin adminData) {
         surnameField.enterText(adminData.getSurnameField());
         nameField.enterText(adminData.getNameField());

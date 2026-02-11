@@ -1,18 +1,15 @@
 package org.example.utils;
 
+import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.*;
 import java.time.Duration;
 import java.util.regex.Pattern;
 
+@Log4j2
 public class WaitUtil {
-
-    private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(10);
+    // private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(10);
     private static final Duration POLLING_INTERVAL = Duration.ofMillis(500);
-
-    public static WebDriverWait getWait(WebDriver driver) {
-        return getWait(driver, DEFAULT_TIMEOUT);
-    }
 
     public static WebDriverWait getWait(WebDriver driver, Duration timeout) {
         return (WebDriverWait) new WebDriverWait(driver, timeout)
@@ -23,28 +20,18 @@ public class WaitUtil {
 
     public static void waitForVisible(WebDriver driver, By locator, Duration timeout) {
         getWait(driver, timeout).until(ExpectedConditions.visibilityOfElementLocated(locator));
+        log.info("Get wait for visible for {} and duration of {}", locator, timeout);
     }
 
-    public static WebElement waitForPresenceOfElement(WebDriver driver, By locator, Duration timeout) {
-        return getWait(driver, timeout).until(ExpectedConditions.presenceOfElementLocated(locator));
+    public static void waitForVisible(WebDriver driver, WebElement element, Duration timeout) {
+        getWait(driver, timeout).until(ExpectedConditions.visibilityOf(element));
+        log.info("Get wait for visible for {} and duration of {}", element, timeout);
     }
-
-    public static Boolean waitForApplicationNumberLoad(WebDriver driver, By locator, Duration timeout) {
-        return new WebDriverWait(driver, timeout).until(d -> {
+    public static void waitForPatternConsists(WebDriver driver, By locator, String regex, Duration timeout) {
+        new WebDriverWait(driver, timeout).until(d -> {
             WebElement span = driver.findElement(locator);
-            return Pattern.matches(".*\\d+.*", span.getText());
+            return Pattern.matches(regex, span.getText());
         });
-    }
-
-    public static WebElement waitForVisible(WebDriver driver, WebElement element) {
-        return getWait(driver).until(ExpectedConditions.visibilityOf(element));
-    }
-
-    public static boolean waitForTextPresent(WebDriver driver, By locator, String text) {
-        return getWait(driver).until(ExpectedConditions.textToBePresentInElementLocated(locator, text));
-    }
-
-    public static boolean waitForTextPresent(WebDriver driver, WebElement element, String text) {
-        return getWait(driver).until(ExpectedConditions.textToBePresentInElement(element, text));
+        log.info("Get wait for application number load by locator {} and duration of {}", locator, timeout);
     }
 }

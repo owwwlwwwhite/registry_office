@@ -1,10 +1,10 @@
 package org.example.pages;
 
+import io.qameta.allure.Step;
 import org.example.elements.Button;
 import org.example.elements.InputField;
 import org.example.valueObjects.Citizen;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.PageFactory;
 
 import static org.example.GlobalConstants.*;
 
@@ -30,9 +30,9 @@ public class CitizenDataPage {
         this.registrationAddressField = new InputField(driver, REGISTRATION_ADDRESS);
 
         this.proceedButton = new Button(driver, PROCEED_BUTTON);
-        PageFactory.initElements(driver, this);
     }
 
+    @Step("Заполнить форму Данные гражданина данными '{citizen}' и нажать кнопку продолжения")
     public void fillFormAndSubmit(Citizen citizen) {
         surnameField.enterText(citizen.getSurnameField());
         nameField.enterText(citizen.getNameField());

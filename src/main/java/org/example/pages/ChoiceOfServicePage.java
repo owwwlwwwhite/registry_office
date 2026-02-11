@@ -1,5 +1,6 @@
 package org.example.pages;
 
+import io.qameta.allure.Step;
 import org.example.valueObjects.Mode;
 import org.example.elements.Button;
 import org.openqa.selenium.WebDriver;
@@ -17,6 +18,7 @@ public class ChoiceOfServicePage {
         birthRegistrationBtn = new Button(driver, BIRTH_REGISTRATION_BTN);
     }
 
+    @Step("Выбрать услугу '{reg}' на странице Выбор услуги")
     public void selectRegistration(Mode reg) {
         switch (reg) {
             case DEATH:
