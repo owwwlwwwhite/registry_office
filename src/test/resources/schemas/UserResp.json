@@ -1,0 +1,12 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "applicantId": { "type": "number" },
+    "applicationId": { "type": "number" },
+    "citizenId": { "type": "number" },
+    "merrigeCertificateId": { "type": "number" }
+  },
+  "required": ["applicantId", "applicationId", "citizenId", "merrigeCertificateId"],
+  "additionalProperties": false
+}

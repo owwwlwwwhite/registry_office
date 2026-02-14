@@ -1,0 +1,31 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "title": "ApplicationResp",
+  "description": "Схема ответа заявки",
+  "required": [
+    "applicantid",
+    "dateofapplication",
+    "kindofapplication",
+    "statusofapplication"
+  ],
+  "properties": {
+    "applicantid": {
+      "type": "number",
+      "description": "Уникальный ID заявителя"
+    },
+    "dateofapplication": {
+      "type": "number",
+      "description": "Дата подачи заявки (timestamp)"
+    },
+    "kindofapplication": {
+      "type": "number",
+      "description": "Тип заявки"
+    },
+    "statusofapplication": {
+      "type": "number",
+      "description": "Статус заявки"
+    }
+  },
+  "additionalProperties": false
+}
