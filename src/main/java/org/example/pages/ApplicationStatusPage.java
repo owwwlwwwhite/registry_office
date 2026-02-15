@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
 
 import java.time.Duration;
 
-import static org.example.GlobalConstants.CREATE_NEW_APPLICATION_BUTTON;
+import static org.example.Constants.CREATE_NEW_APPLICATION_BUTTON;
 
 public class ApplicationStatusPage {
     private final WebDriver driver;

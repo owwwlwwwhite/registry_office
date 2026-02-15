@@ -1,8 +1,8 @@
-package org.example.utils;
+package org.example.test_data;
 
 import lombok.Getter;
 
-public class DataAPIFactoryUtil {
+public class DataAPIFactory {
     @Getter
     public static final String sendUserRequestWedding = """
             {

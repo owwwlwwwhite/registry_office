@@ -1,13 +1,6 @@
 package org.example;
 
-import io.restassured.RestAssured;
-import io.restassured.builder.RequestSpecBuilder;
-import io.restassured.specification.RequestSpecification;
-import org.example.utils.RestAssuredCustomLogger;
-
-import java.net.URI;
-
-public class GlobalConstants {
+public class Constants {
     public static final String SURNAME = "Фамилия";
     public static final String NAME = "Имя";
     public static final String PATRONYMIC = "Отчество";
@@ -27,20 +20,4 @@ public class GlobalConstants {
     public static final String ENTER_AS_ADMIN_BUTTON = "Войти как администратор";
 
     public static final String CREATE_NEW_APPLICATION_BUTTON = "Создать новую заявку";
-
-
-    public static final RequestSpecification BASE_SPECIFICATION = new RequestSpecBuilder()
-            .setBaseUri(URI.create("https://regoffice.senla.eu/"))
-            .setAuth(RestAssured.basic("user", "senlatest"))
-            .setContentType("application/json")
-            .addHeader("Accept", "*/*")
-            .addHeader("Accept-Encoding", "gzip, deflate, br")
-            .addHeader("Connection", "keep-alive")
-            .addFilter(new RestAssuredCustomLogger())
-            .build();
-    public static final String SEND_USER_REQUEST_ENDPOINT = "/sendUserRequest";
-    public static final String GET_APPLICATION_BY_STATUS_ENDPOINT = "/getApplStatus/";
-    public static final String GET_APPLICATIONS_ENDPOINT = "/getApplStatus";
-    public static final String SEND_ADMIN_REQUEST_ENDPOINT = "/sendAdminRequest";
-    public static final String REQUEST_PROCESS_ENDPOINT = "/requestProcess";
 }

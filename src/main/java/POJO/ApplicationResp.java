@@ -1,9 +1,11 @@
 package POJO;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-@Data
+@Getter
+@AllArgsConstructor
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class ApplicationResp {
     private int applicantId;

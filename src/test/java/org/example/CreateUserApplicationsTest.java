@@ -3,7 +3,7 @@ package org.example;
 import io.qameta.allure.Link;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import org.example.utils.DataFactoryUtil;
+import org.example.test_data.DataFactory;
 import org.example.valueObjects.Mode;
 import org.junit.jupiter.api.*;
 
@@ -19,10 +19,10 @@ public class CreateUserApplicationsTest extends BaseTest {
     @DisplayName("Проверка успешного заполнения заявки на регистрацию смерти")
     void RegisterDeathApplication() {
         mainPage.enterAsUser();
-        applicantDataPage.fillFormAndSubmit(DataFactoryUtil.getApplicant());
+        applicantDataPage.fillFormAndSubmit(DataFactory.getApplicant());
         choiceOfServicePage.selectRegistration(Mode.DEATH);
-        citizenDataPage.fillFormAndSubmit(DataFactoryUtil.getCitizen());
-        deathServiceDataPage.fillFormAndSubmit(DataFactoryUtil.getServiceDeathData());
+        citizenDataPage.fillFormAndSubmit(DataFactory.getCitizen());
+        deathServiceDataPage.fillFormAndSubmit(DataFactory.getServiceDeathData());
         assertEquals("Создать новую заявку", applicationStatusPage.getCreateNewApplicationBtnText());
     }
 
@@ -32,10 +32,10 @@ public class CreateUserApplicationsTest extends BaseTest {
     @DisplayName("Проверка успешного заполнения заявки на регистрацию рождения")
     void registerBirthApplication() {
         mainPage.enterAsUser();
-        applicantDataPage.fillFormAndSubmit(DataFactoryUtil.getApplicant());
+        applicantDataPage.fillFormAndSubmit(DataFactory.getApplicant());
         choiceOfServicePage.selectRegistration(Mode.BIRTH);
-        citizenDataPage.fillFormAndSubmit(DataFactoryUtil.getCitizen());
-        birthServiceDataPage.fillFormAndSubmit(DataFactoryUtil.getServiceBirthData());
+        citizenDataPage.fillFormAndSubmit(DataFactory.getCitizen());
+        birthServiceDataPage.fillFormAndSubmit(DataFactory.getServiceBirthData());
         assertEquals("Создать новую заявку", applicationStatusPage.getCreateNewApplicationBtnText());
     }
 
@@ -45,10 +45,10 @@ public class CreateUserApplicationsTest extends BaseTest {
     @DisplayName("Проверка успешного заполнения заявки на регистрацию брака")
     void registerMarriageApplication() {
         mainPage.enterAsUser();
-        applicantDataPage.fillFormAndSubmit(DataFactoryUtil.getApplicant());
+        applicantDataPage.fillFormAndSubmit(DataFactory.getApplicant());
         choiceOfServicePage.selectRegistration(Mode.MARRIAGE);
-        citizenDataPage.fillFormAndSubmit(DataFactoryUtil.getCitizen());
-        marriageServiceDataPage.fillFormAndSubmit(DataFactoryUtil.getServiceMarriageData());
+        citizenDataPage.fillFormAndSubmit(DataFactory.getCitizen());
+        marriageServiceDataPage.fillFormAndSubmit(DataFactory.getServiceMarriageData());
         assertEquals("Создать новую заявку", applicationStatusPage.getCreateNewApplicationBtnText());
     }
 }

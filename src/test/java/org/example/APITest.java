@@ -13,16 +13,15 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.example.GlobalConstants.*;
+import static org.example.APIConstants.*;
+import static org.example.APISpecifications.BASE_SPECIFICATION;
 
-import org.example.utils.DataAPIFactoryUtil;
+import org.example.test_data.DataAPIFactory;
 
 @Log4j2
 @DisplayName("Раздел API")
 public class APITest {
-
     private final SoftAssertions softly = new SoftAssertions();
-
 
     @Test
     @Severity(SeverityLevel.CRITICAL)
@@ -31,31 +30,25 @@ public class APITest {
     void sendUserRequest() {
         Response response = given()
                 .spec(BASE_SPECIFICATION)
-                .body(DataAPIFactoryUtil.getSendUserRequestWedding())
-                .post(SEND_USER_REQUEST_ENDPOINT);
+                .body(DataAPIFactory.getSendUserRequestWedding())
+                .post(SEND_USER_REQUEST_ENDPOINT)
+                .then()
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath("schemas/UserResp.json"))
+                .extract().response();
+        UserResp userResp = response.as(UserResp.class);
 
-        softly.assertThat(response.getStatusCode())
-                .as("Статус код ответа")
-                .isEqualTo(200);
+        softly.assertThat(userResp.getApplicationId())
+                .as("Application ID")
+                .isGreaterThan(0);
 
-        try {
-            response.then().body(matchesJsonSchemaInClasspath("/schemas/UserResp.json"));
-            UserResp userResp = response.as(UserResp.class);
+        softly.assertThat(userResp.getApplicantId())
+                .as("Applicant ID")
+                .isGreaterThan(0);
 
-            softly.assertThat(userResp.getApplicationId())
-                    .as("Application ID")
-                    .isGreaterThan(0);
-
-            softly.assertThat(userResp.getApplicantId())
-                    .as("Applicant ID")
-                    .isGreaterThan(0);
-
-            softly.assertThat(userResp.getCitizenId())
-                    .as("Citizen ID")
-                    .isGreaterThan(0);
-        } catch (Exception e) {
-            softly.fail("Формат тела ответа не соответствует модели UserResp: " + e);
-        }
+        softly.assertThat(userResp.getCitizenId())
+                .as("Citizen ID")
+                .isGreaterThan(0);
         softly.assertAll();
     }
 
@@ -64,7 +57,7 @@ public class APITest {
     int createApplication() {
         Response response = given()
                 .spec(BASE_SPECIFICATION)
-                .body(DataAPIFactoryUtil.getSendUserRequestWedding())
+                .body(DataAPIFactory.getSendUserRequestWedding())
                 .post(SEND_USER_REQUEST_ENDPOINT);
 
         return response.body().jsonPath().getInt("data.applicationid");
@@ -83,34 +76,29 @@ public class APITest {
         Response response = given()
                 .spec(BASE_SPECIFICATION)
                 .param(String.valueOf(applicationNumber))
-                .get(GET_APPLICATION_BY_STATUS_ENDPOINT);
+                .get(GET_APPLICATION_BY_STATUS_ENDPOINT)
+                .then()
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath("schemas/applicationResp.json"))
+                .extract().response();
 
-        softly.assertThat(response.getStatusCode())
-                .as("Статус код ответа")
-                .isEqualTo(200);
+        applicationResp = response.as(ApplicationResp.class);
 
-        try {
-            response.then().body(matchesJsonSchemaInClasspath("/schemas/applicationResp.json"));
-            applicationResp = response.as(ApplicationResp.class);
+        softly.assertThat(applicationResp.getApplicantId())
+                .as("Applicant Id больше нуля")
+                .isGreaterThan(0);
 
-            softly.assertThat(applicationResp.getApplicantId())
-                    .as("Applicant Id больше нуля")
-                    .isGreaterThan(0);
+        softly.assertThat(applicationResp.getDateOfApplication())
+                .as("Date Of Application больше нуля")
+                .isGreaterThan(0);
 
-            softly.assertThat(applicationResp.getDateOfApplication())
-                    .as("Date Of Application больше нуля")
-                    .isGreaterThan(0);
+        softly.assertThat(applicationResp.getKindOfApplication())
+                .as("Kind Of Application больше нуля")
+                .isGreaterThan(0);
 
-            softly.assertThat(applicationResp.getKindOfApplication())
-                    .as("Kind Of Application больше нуля")
-                    .isGreaterThan(0);
-
-            softly.assertThat(applicationResp.getStatusOfApplication())
-                    .as("Status Of Application больше нуля")
-                    .isGreaterThan(0);
-        } catch (Exception e) {
-            softly.fail("Формат тела ответа не соответствует модели ApplicationResp: " + e);
-        }
+        softly.assertThat(applicationResp.getStatusOfApplication())
+                .as("Status Of Application больше нуля")
+                .isGreaterThan(0);
         softly.assertAll();
     }
 
@@ -122,47 +110,41 @@ public class APITest {
     void getApplications() {
         Response response = given()
                 .spec(BASE_SPECIFICATION)
-                .get(GET_APPLICATIONS_ENDPOINT);
+                .get(GET_APPLICATIONS_ENDPOINT)
+                .then()
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath("schemas/applicationsResp.json"))
+                .extract().response();
 
-        softly.assertThat(response.getStatusCode())
-                .as("Статус код ответа")
-                .isEqualTo(200);
+        ApplicationsResp applicationsResp = response.as(ApplicationsResp.class);
 
-        try {
-            response.then().body(matchesJsonSchemaInClasspath("/schemas/applicationsResp.json"));
-            ApplicationsResp applicationsResp = response.as(ApplicationsResp.class);
+        softly.assertThat(applicationsResp.getApplicantId())
+                .as("Applicant Id больше нуля")
+                .isGreaterThan(0);
 
-            softly.assertThat(applicationsResp.getApplicantId())
-                    .as("Applicant Id больше нуля")
-                    .isGreaterThan(0);
+        softly.assertThat(applicationsResp.getApplicationId())
+                .as("Application Id больше нуля")
+                .isGreaterThan(0);
 
-            softly.assertThat(applicationsResp.getApplicationId())
-                    .as("Application Id больше нуля")
-                    .isGreaterThan(0);
+        softly.assertThat(applicationsResp.getCitizenId())
+                .as("Citizen Id больше нуля")
+                .isGreaterThan(0);
 
-            softly.assertThat(applicationsResp.getCitizenId())
-                    .as("Citizen Id больше нуля")
-                    .isGreaterThan(0);
+        softly.assertThat(applicationsResp.getDateOfApplication())
+                .as("Date Of Application строка")
+                .asString();
 
-            softly.assertThat(applicationsResp.getDateOfApplication())
-                    .as("Date Of Application строка")
-                    .asString();
+        softly.assertThat(applicationsResp.getKindOfApplication())
+                .as("Kind Of Application строка")
+                .asString();
 
-            softly.assertThat(applicationsResp.getKindOfApplication())
-                    .as("Kind Of Application строка")
-                    .asString();
+        softly.assertThat(applicationsResp.getStatusOfApplication())
+                .as("Status Of Application больше нуля")
+                .isGreaterThan(0);
 
-            softly.assertThat(applicationsResp.getStatusOfApplication())
-                    .as("Status Of Application больше нуля")
-                    .isGreaterThan(0);
-
-            softly.assertThat(applicationsResp.getStaffId())
-                    .as("Staff Id больше нуля")
-                    .isGreaterThan(0);
-
-        } catch (Exception e) {
-            softly.fail("Формат тела ответа не соответствует модели applicationsResp: " + e);
-        }
+        softly.assertThat(applicationsResp.getStaffId())
+                .as("Staff Id больше нуля")
+                .isGreaterThan(0);
         softly.assertAll();
     }
 
@@ -173,23 +155,18 @@ public class APITest {
     void sendAdminRequest() {
         Response response = given()
                 .spec(BASE_SPECIFICATION)
-                .body(DataAPIFactoryUtil.getSendAdminRequest())
-                .post(SEND_ADMIN_REQUEST_ENDPOINT);
+                .body(DataAPIFactory.getSendAdminRequest())
+                .post(SEND_ADMIN_REQUEST_ENDPOINT)
+                .then()
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath("schemas/createAdminResp.json"))
+                .extract().response();
 
-        softly.assertThat(response.getStatusCode())
-                .as("Статус код ответа")
-                .isEqualTo(200);
+        int staffId = response.as(Integer.class);
 
-        try {
-            response.then().body(matchesJsonSchemaInClasspath("schemas/createAdminResp.json"));
-            int staffId = response.as(Integer.class);
-
-            softly.assertThat(staffId)
-                    .as("Staff Id больше нуля")
-                    .isGreaterThan(0);
-        } catch (Exception e) {
-            softly.fail("Формат тела ответа не соответствует модели applicationsResp: " + e);
-        }
+        softly.assertThat(staffId)
+                .as("Staff Id больше нуля")
+                .isGreaterThan(0);
         softly.assertAll();
     }
 
@@ -200,15 +177,13 @@ public class APITest {
     void requestProcess() {
         Response response = given()
                 .spec(BASE_SPECIFICATION)
-                .body(DataAPIFactoryUtil.getChangeApplStatus())
-                .post(REQUEST_PROCESS_ENDPOINT);
+                .body(DataAPIFactory.getChangeApplStatus())
+                .post(REQUEST_PROCESS_ENDPOINT)
+                .then()
+                .statusCode(200)
+                .body(matchesJsonSchemaInClasspath("schemas/changeApplStatusResp.json"))
+                .extract().response();
 
-        softly.assertThat(response.getStatusCode())
-                .as("Статус код ответа")
-                .isEqualTo(200);
-
-        try {
-            response.then().body(matchesJsonSchemaInClasspath("schemas/changeApplStatusResp.json"));
             ChangeApplStatusResp changeApplStatusResp = response.as(ChangeApplStatusResp.class);
 
             softly.assertThat(changeApplStatusResp.getApplicantid())
@@ -238,10 +213,6 @@ public class APITest {
             softly.assertThat(changeApplStatusResp.getStaffid())
                     .as("Staff Id больше нуля")
                     .isGreaterThan(0);
-
-        } catch (Exception e) {
-            softly.fail("Формат тела ответа не соответствует модели changeApplStatusResp: " + e);
-        }
         softly.assertAll();
     }
 }
