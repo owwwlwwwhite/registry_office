@@ -6,7 +6,7 @@ import org.example.elements.InputField;
 import org.example.valueObjects.Admin;
 import org.openqa.selenium.WebDriver;
 
-import static org.example.Constants.*;
+import static org.example.FieldNamesConstants.*;
 
 public class AdminRegistrationPage {
     private final InputField surnameField;

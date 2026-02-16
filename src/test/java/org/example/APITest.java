@@ -13,7 +13,7 @@ import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.example.APIConstants.*;
+import static org.example.EndpointsConstants.*;
 import static org.example.APISpecifications.BASE_SPECIFICATION;
 
 import org.example.test_data.DataAPIFactory;

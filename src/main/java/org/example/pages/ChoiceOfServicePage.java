@@ -5,7 +5,7 @@ import org.example.valueObjects.Mode;
 import org.example.elements.Button;
 import org.openqa.selenium.WebDriver;
 
-import static org.example.Constants.*;
+import static org.example.FieldNamesConstants.*;
 
 public class ChoiceOfServicePage {
     private final Button deathRegistrationBtn;
