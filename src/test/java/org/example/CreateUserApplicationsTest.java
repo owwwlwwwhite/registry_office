@@ -11,8 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Раздел Пользователя")
 public class CreateUserApplicationsTest extends BaseTest {
-
-
     @Test
     @Severity(SeverityLevel.CRITICAL)
     @Link(url = "https://app.qase.io/project/ZDYS?suite=3&tab=&previewMode=side&case=478")

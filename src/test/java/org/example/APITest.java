@@ -1,6 +1,5 @@
 package org.example;
 
-import POJO.*;
 import io.qameta.allure.Link;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
@@ -8,6 +7,10 @@ import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.SoftAssertions;
+import org.example.POJO.ApplicationResp;
+import org.example.POJO.ApplicationsResp;
+import org.example.POJO.ChangeApplStatusResp;
+import org.example.POJO.UserResp;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -54,7 +57,7 @@ public class APITest {
 
 
     @Step("Создать заявку о регистрации брака")
-    int createApplication() {
+    static int createApplication() {
         Response response = given()
                 .spec(BASE_SPECIFICATION)
                 .body(DataAPIFactory.getSendUserRequestWedding())
@@ -184,35 +187,35 @@ public class APITest {
                 .body(matchesJsonSchemaInClasspath("schemas/changeApplStatusResp.json"))
                 .extract().response();
 
-            ChangeApplStatusResp changeApplStatusResp = response.as(ChangeApplStatusResp.class);
+        ChangeApplStatusResp changeApplStatusResp = response.as(ChangeApplStatusResp.class);
 
-            softly.assertThat(changeApplStatusResp.getApplicantid())
-                    .as("Applicant Id больше нуля")
-                    .isGreaterThan(0);
+        softly.assertThat(changeApplStatusResp.getApplicantid())
+                .as("Applicant Id больше нуля")
+                .isGreaterThan(0);
 
-            softly.assertThat(changeApplStatusResp.getApplicationid())
-                    .as("Application Id больше нуля")
-                    .isGreaterThan(0);
+        softly.assertThat(changeApplStatusResp.getApplicationid())
+                .as("Application Id больше нуля")
+                .isGreaterThan(0);
 
-            softly.assertThat(changeApplStatusResp.getCitizenid())
-                    .as("Citizen Id больше нуля")
-                    .isGreaterThan(0);
+        softly.assertThat(changeApplStatusResp.getCitizenid())
+                .as("Citizen Id больше нуля")
+                .isGreaterThan(0);
 
-            softly.assertThat(changeApplStatusResp.getDateofapplication())
-                    .as("Date of application строка")
-                    .asString();
+        softly.assertThat(changeApplStatusResp.getDateofapplication())
+                .as("Date of application строка")
+                .asString();
 
-            softly.assertThat(changeApplStatusResp.getKindofapplication())
-                    .as("Kind of application строка")
-                    .asString();
+        softly.assertThat(changeApplStatusResp.getKindofapplication())
+                .as("Kind of application строка")
+                .asString();
 
-            softly.assertThat(changeApplStatusResp.getStatusofapplication())
-                    .as("Status of application больше нуля")
-                    .isGreaterThan(0);
+        softly.assertThat(changeApplStatusResp.getStatusofapplication())
+                .as("Status of application больше нуля")
+                .isGreaterThan(0);
 
-            softly.assertThat(changeApplStatusResp.getStaffid())
-                    .as("Staff Id больше нуля")
-                    .isGreaterThan(0);
+        softly.assertThat(changeApplStatusResp.getStaffid())
+                .as("Staff Id больше нуля")
+                .isGreaterThan(0);
         softly.assertAll();
     }
 }
