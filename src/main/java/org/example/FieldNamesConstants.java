@@ -1,6 +1,6 @@
 package org.example;
 
-public class GlobalConstants {
+public class FieldNamesConstants {
     public static final String SURNAME = "Фамилия";
     public static final String NAME = "Имя";
     public static final String PATRONYMIC = "Отчество";

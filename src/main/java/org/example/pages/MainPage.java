@@ -4,8 +4,8 @@ import io.qameta.allure.Step;
 import org.example.elements.Button;
 import org.openqa.selenium.WebDriver;
 
-import static org.example.GlobalConstants.ENTER_AS_ADMIN_BUTTON;
-import static org.example.GlobalConstants.ENTER_AS_USER_BUTTON;
+import static org.example.FieldNamesConstants.ENTER_AS_ADMIN_BUTTON;
+import static org.example.FieldNamesConstants.ENTER_AS_USER_BUTTON;
 
 public class MainPage {
 

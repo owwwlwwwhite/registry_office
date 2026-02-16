@@ -6,7 +6,7 @@ import org.example.elements.InputField;
 import org.example.valueObjects.Applicant;
 import org.openqa.selenium.WebDriver;
 
-import static org.example.GlobalConstants.*;
+import static org.example.FieldNamesConstants.*;
 
 public class ApplicantDataPage {
 

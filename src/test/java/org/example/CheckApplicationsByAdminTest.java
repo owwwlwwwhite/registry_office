@@ -5,7 +5,7 @@ import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Step;
 import org.example.pages.ApplicationStatusPage;
-import org.example.utils.DataFactoryUtil;
+import org.example.test_data.DataFactory;
 import org.example.valueObjects.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,16 +20,16 @@ public class CheckApplicationsByAdminTest extends BaseTest {
         driver.get(testProperties.getProperty("url"));
 
         mainPage.enterAsAdmin();
-        adminRegistrationPage.fillFormAndSubmit(DataFactoryUtil.getAdminData());
+        adminRegistrationPage.fillFormAndSubmit(DataFactory.getAdminData());
         return applicationsAdministrationPage.getApplicationNumberFromTable();
     }
 
     @Step("Создать заявку типа '{mode}' данными '{serviceData}'")
     public String createApplication(Mode mode, ServiceData serviceData) {
         mainPage.enterAsUser();
-        applicantDataPage.fillFormAndSubmit(DataFactoryUtil.getApplicant());
+        applicantDataPage.fillFormAndSubmit(DataFactory.getApplicant());
         choiceOfServicePage.selectRegistration(mode);
-        citizenDataPage.fillFormAndSubmit(DataFactoryUtil.getCitizen());
+        citizenDataPage.fillFormAndSubmit(DataFactory.getCitizen());
         switch (mode) {
             case MARRIAGE:
                 marriageServiceDataPage.fillFormAndSubmit(serviceData);
@@ -49,7 +49,7 @@ public class CheckApplicationsByAdminTest extends BaseTest {
     @Link(url = "https://app.qase.io/project/ZDYS?suite=102&tab=&previewMode=side&case=480")
     @DisplayName("Проверка отображения заявки на регистрацию рождения в панели администратора")
     void checkBirthApplicationCreation() {
-        String applicationNumber = createApplication(Mode.BIRTH, DataFactoryUtil.getServiceBirthData());
+        String applicationNumber = createApplication(Mode.BIRTH, DataFactory.getServiceBirthData());
 
         assertEquals(applicationNumber, findApplicationNumber());
     }
@@ -59,7 +59,7 @@ public class CheckApplicationsByAdminTest extends BaseTest {
     @DisplayName("Проверка отображения заявки на регистрацию брака в панели администратора")
     @Link(url = "https://app.qase.io/project/ZDYS?suite=102&tab=&previewMode=side&case=479")
     void checkMarriageApplicationCreation() {
-        String applicationNumber = createApplication(Mode.MARRIAGE, DataFactoryUtil.getServiceMarriageData());
+        String applicationNumber = createApplication(Mode.MARRIAGE, DataFactory.getServiceMarriageData());
 
         assertEquals(applicationNumber, findApplicationNumber());
     }
@@ -69,7 +69,7 @@ public class CheckApplicationsByAdminTest extends BaseTest {
     @DisplayName("Проверка отображения заявки на регистрацию смерти в панели администратора")
     @Link(url = "https://app.qase.io/project/ZDYS?suite=102&tab=&previewMode=side&case=481")
     void checkDeathApplicationCreation() {
-        String applicationNumber = createApplication(Mode.DEATH, DataFactoryUtil.getServiceDeathData());
+        String applicationNumber = createApplication(Mode.DEATH, DataFactory.getServiceDeathData());
 
         assertEquals(applicationNumber, findApplicationNumber());
     }

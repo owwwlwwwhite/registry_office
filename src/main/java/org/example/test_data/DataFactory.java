@@ -1,4 +1,4 @@
-package org.example.utils;
+package org.example.test_data;
 
 import lombok.Getter;
 import org.example.valueObjects.Admin;
@@ -6,7 +6,7 @@ import org.example.valueObjects.Applicant;
 import org.example.valueObjects.Citizen;
 import org.example.valueObjects.ServiceData;
 
-public class DataFactoryUtil {
+public class DataFactory {
     @Getter
     protected final static Applicant applicant = new Applicant("Фа", "Им", "Отчес", "1234567", "123456", "абвг");
     @Getter

@@ -1,0 +1,9 @@
+{
+  "type": "object",
+  "required": ["staffid"],
+  "properties" : {
+    "staffid": {
+      "type": "integer"
+    }
+  }
+}
