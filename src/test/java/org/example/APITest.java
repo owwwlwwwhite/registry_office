@@ -57,11 +57,14 @@ public class APITest {
 
 
     @Step("Создать заявку о регистрации брака")
-    static int createApplication() {
+    int createApplication() {
         Response response = given()
                 .spec(BASE_SPECIFICATION)
                 .body(DataAPIFactory.getSendUserRequestWedding())
-                .post(SEND_USER_REQUEST_ENDPOINT);
+                .post(SEND_USER_REQUEST_ENDPOINT)
+                .then()
+                .statusCode(200)
+                .extract().response();
 
         return response.body().jsonPath().getInt("data.applicationid");
     }
