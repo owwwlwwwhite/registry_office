@@ -5,7 +5,7 @@ import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
-import org.example.DBTableRecords.*;
+import org.example.db.DBTableRecords.*;
 import org.example.test_data.DataAPIFactory;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -15,9 +15,10 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 import static io.restassured.RestAssured.given;
-import static org.example.APISpecifications.BASE_SPECIFICATION;
-import static org.example.EndpointsConstants.SEND_ADMIN_REQUEST_ENDPOINT;
-import static org.example.EndpointsConstants.SEND_USER_REQUEST_ENDPOINT;
+import static org.example.api.APISpecifications.BASE_SPECIFICATION;
+import static org.example.api.EndpointsConstants.SEND_ADMIN_REQUEST_ENDPOINT;
+import static org.example.api.EndpointsConstants.SEND_USER_REQUEST_ENDPOINT;
+import static org.example.db.Steps.*;
 import static org.example.utils.jsonUtil.extractValueBodyRequest;
 
 @Log4j2
@@ -55,10 +56,10 @@ public class DBTest extends DBBaseTest {
     void checkUserRegisterApplication() throws SQLException {
         int applicationIdAPI = createApplication();
 
-        ApplicationsTableRecord applicationsTableRecord = extractRecordFromApplicationsTable(applicationIdAPI);
-        CitizensTableRecord citizensTableRecord = extractRecordFromCitizensTable(applicationsTableRecord.citizenid());
-        ApplicantsTableRecord applicantsTableRecord = extractRecordFromApplicantsTable(applicationsTableRecord.applicantid());
-        MerrigeCertificatesTableRecord merrigeCertificatesTableRecord = extractRecordFromMerrigeCertificatesTable(applicationsTableRecord.citizenid());
+        ApplicationsTableRecord applicationsTableRecord = extractRecordFromApplicationsTable(applicationIdAPI, statement);
+        CitizensTableRecord citizensTableRecord = extractRecordFromCitizensTable(applicationsTableRecord.citizenid(), statement);
+        ApplicantsTableRecord applicantsTableRecord = extractRecordFromApplicantsTable(applicationsTableRecord.applicantid(), statement);
+        MerrigeCertificatesTableRecord merrigeCertificatesTableRecord = extractRecordFromMerrigeCertificatesTable(applicationsTableRecord.citizenid(), statement);
 
         // APPLICATIONS TABLE
 
@@ -186,7 +187,7 @@ public class DBTest extends DBBaseTest {
     void checkAdminRegistration() throws SQLException {
         int staffid = createAdmin();
 
-        StaffTableRecord staffTableRecord = extractRecordFromStaffTable(staffid);
+        StaffTableRecord staffTableRecord = extractRecordFromStaffTable(staffid, statement);
 
         softly.assertThat(staffTableRecord.surname())
                 .as("surname must be the same as in request personalLastName")

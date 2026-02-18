@@ -2,12 +2,14 @@ package org.example;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.log4j.Log4j2;
-import org.example.pages.*;
-import org.example.valueObjects.*;
+import org.example.ui.DriverManager;
+import org.example.ui.pages.*;
+import org.example.ui.valueObjects.Mode;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 
+import java.util.Objects;
 import java.util.Properties;
 
 import static org.example.utils.propertyLoaderUtil.loadProperty;
@@ -38,7 +40,7 @@ public class BaseTest {
 
         testProperties = loadProperty("test_auth.properties");
 
-        driver.get(testProperties.getProperty("url"));
+        driver.get(Objects.requireNonNull(testProperties).getProperty("url"));
         log.info("Open Main page");
 
         mainPage = new MainPage(driver);

@@ -7,17 +7,17 @@ import io.qameta.allure.Step;
 import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.SoftAssertions;
-import org.example.POJO.ApplicationResp;
-import org.example.POJO.ApplicationsResp;
-import org.example.POJO.ChangeApplStatusResp;
-import org.example.POJO.UserResp;
+import org.example.api.POJO.ApplicationResp;
+import org.example.api.POJO.ApplicationsResp;
+import org.example.api.POJO.ChangeApplStatusResp;
+import org.example.api.POJO.UserResp;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.example.EndpointsConstants.*;
-import static org.example.APISpecifications.BASE_SPECIFICATION;
+import static org.example.api.EndpointsConstants.*;
+import static org.example.api.APISpecifications.BASE_SPECIFICATION;
 
 import org.example.test_data.DataAPIFactory;
 
@@ -136,14 +136,6 @@ public class APITest {
                 .as("Citizen Id больше нуля")
                 .isGreaterThan(0);
 
-        softly.assertThat(applicationsResp.getDateOfApplication())
-                .as("Date Of Application строка")
-                .asString();
-
-        softly.assertThat(applicationsResp.getKindOfApplication())
-                .as("Kind Of Application строка")
-                .asString();
-
         softly.assertThat(applicationsResp.getStatusOfApplication())
                 .as("Status Of Application больше нуля")
                 .isGreaterThan(0);
@@ -203,14 +195,6 @@ public class APITest {
         softly.assertThat(changeApplStatusResp.getCitizenid())
                 .as("Citizen Id больше нуля")
                 .isGreaterThan(0);
-
-        softly.assertThat(changeApplStatusResp.getDateofapplication())
-                .as("Date of application строка")
-                .asString();
-
-        softly.assertThat(changeApplStatusResp.getKindofapplication())
-                .as("Kind of application строка")
-                .asString();
 
         softly.assertThat(changeApplStatusResp.getStatusofapplication())
                 .as("Status of application больше нуля")

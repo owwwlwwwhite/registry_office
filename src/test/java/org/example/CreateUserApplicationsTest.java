@@ -4,7 +4,7 @@ import io.qameta.allure.Link;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import org.example.test_data.DataFactory;
-import org.example.valueObjects.Mode;
+import org.example.ui.valueObjects.Mode;
 import org.junit.jupiter.api.*;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
