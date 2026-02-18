@@ -1,10 +1,10 @@
 package org.example.test_data;
 
 import lombok.Getter;
-import org.example.valueObjects.Admin;
-import org.example.valueObjects.Applicant;
-import org.example.valueObjects.Citizen;
-import org.example.valueObjects.ServiceData;
+import org.example.ui.valueObjects.Admin;
+import org.example.ui.valueObjects.Applicant;
+import org.example.ui.valueObjects.Citizen;
+import org.example.ui.valueObjects.ServiceData;
 
 public class DataFactory {
     @Getter

@@ -4,9 +4,10 @@ import io.qameta.allure.Link;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Step;
-import org.example.pages.ApplicationStatusPage;
+import org.example.ui.pages.ApplicationStatusPage;
 import org.example.test_data.DataFactory;
-import org.example.valueObjects.*;
+import org.example.ui.valueObjects.Mode;
+import org.example.ui.valueObjects.ServiceData;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 

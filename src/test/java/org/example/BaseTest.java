@@ -2,15 +2,17 @@ package org.example;
 
 import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.log4j.Log4j2;
-import org.example.pages.*;
-import org.example.valueObjects.*;
+import org.example.ui.DriverManager;
+import org.example.ui.pages.*;
+import org.example.ui.valueObjects.Mode;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.util.Objects;
 import java.util.Properties;
+
+import static org.example.utils.propertyLoaderUtil.loadProperty;
 
 @Log4j2
 public class BaseTest {
@@ -36,24 +38,9 @@ public class BaseTest {
         driver.manage().window().maximize();
         log.info("Setup driver");
 
-        testProperties = new Properties();
-        InputStream inputStream = App.class
-                .getClassLoader()
-                .getResourceAsStream("test_auth.properties");
+        testProperties = loadProperty("test_auth.properties");
 
-        if (inputStream == null) {
-            log.fatal("Файл test_auth.properties не найден в src/test/resources/");
-            throw new RuntimeException("Файл test_auth.properties не найден в src/test/resources/");
-        }
-
-        try {
-            testProperties.load(inputStream);
-            inputStream.close();
-        } catch (IOException e) {
-            log.fatal("io error - marriage_application.before");
-        }
-
-        driver.get(testProperties.getProperty("url"));
+        driver.get(Objects.requireNonNull(testProperties).getProperty("url"));
         log.info("Open Main page");
 
         mainPage = new MainPage(driver);
