@@ -8,7 +8,7 @@ import java.io.InputStream;
 import java.util.Properties;
 
 @Log4j2
-public class propertyLoaderUtil {
+public class PropertyLoaderUtil {
     public static Properties loadProperty(String propertyName) {
 
         InputStream inputStream = App.class

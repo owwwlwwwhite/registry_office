@@ -19,7 +19,7 @@ import static org.example.api.APISpecifications.BASE_SPECIFICATION;
 import static org.example.api.EndpointsConstants.SEND_ADMIN_REQUEST_ENDPOINT;
 import static org.example.api.EndpointsConstants.SEND_USER_REQUEST_ENDPOINT;
 import static org.example.db.Steps.*;
-import static org.example.utils.jsonUtil.extractValueBodyRequest;
+import static org.example.utils.JsonUtil.extractValueBodyRequest;
 
 @Log4j2
 @DisplayName("Раздел DB")
@@ -97,7 +97,7 @@ public class DBTest extends DBBaseTest {
                 .as("middlename must be the same as in request citizenMiddleName")
                 .isEqualTo(extractValueBodyRequest("citizenMiddleName", DataAPIFactory.getSendUserRequestWedding()));
 
-        softly.assertThat(citizensTableRecord.dateofbirth())
+        softly.assertThat(citizensTableRecord.passportnumber())
                 .as("passportnumber must be the same as in request citizenNumberOfPassport")
                 .isEqualTo(extractValueBodyRequest("citizenNumberOfPassport", DataAPIFactory.getSendUserRequestWedding()));
 
@@ -206,8 +206,7 @@ public class DBTest extends DBBaseTest {
                 .isEqualTo(
                         LocalDate.parse(
                                 Objects.requireNonNull(
-                                        extractValueBodyRequest("dateofbirth", DataAPIFactory.getSendAdminRequest())))
-                                .atStartOfDay());
+                                        extractValueBodyRequest("dateofbirth", DataAPIFactory.getSendAdminRequest()))));
 
         softly.assertThat(staffTableRecord.passportnumber())
                 .as("passportnumber must be the same as in request personalNumberOfPassport")

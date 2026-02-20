@@ -7,7 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Log4j2
-public class jsonUtil {
+public class JsonUtil {
     @Step("Достать значение из поля {field} из запроса {json}")
     public static String extractValueBodyRequest(String field, String json) {
         String regex = "\"" + field + "\"\\s*:\\s*\"?([^\"\\n,}]*)\"?";

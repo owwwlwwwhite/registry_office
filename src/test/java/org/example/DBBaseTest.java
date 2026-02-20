@@ -10,7 +10,7 @@ import java.sql.DriverManager;
 import java.util.Objects;
 import java.util.Properties;
 
-import static org.example.utils.propertyLoaderUtil.loadProperty;
+import static org.example.utils.PropertyLoaderUtil.loadProperty;
 
 @Log4j2
 public class DBBaseTest {
