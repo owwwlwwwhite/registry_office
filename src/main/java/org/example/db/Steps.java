@@ -11,6 +11,7 @@ public class Steps {
     @Step("Извлечь запись из таблицы merrigecertificates с citizenid={citizenid}")
     public static MerrigeCertificatesTableRecord extractRecordFromMerrigeCertificatesTable(int citizenId, Statement statement) throws SQLException {
         ResultSet resultSet = Query.selectMerrigeCertificateByCitizenId(statement, citizenId);
+        resultSet.next();
 
         return new MerrigeCertificatesTableRecord(
                 resultSet.getTimestamp("dateofmerrige").toLocalDateTime().toLocalDate(),
@@ -26,6 +27,7 @@ public class Steps {
     @Step("Извлечь запись из таблицы applicants с applicantid={applicantid}")
     public static ApplicantsTableRecord extractRecordFromApplicantsTable(int applicantId, Statement statement) throws SQLException {
         ResultSet resultSet = Query.selectApplicantByApplicantId(statement, applicantId);
+        resultSet.next();
 
         return new ApplicantsTableRecord(
                 resultSet.getString("surname"),
@@ -41,6 +43,7 @@ public class Steps {
     @Step("Извлечь запись из таблицы citizens с citizenid={citizenid}")
     public static CitizensTableRecord extractRecordFromCitizensTable(int citizenId, Statement statement) throws SQLException {
         ResultSet resultSet = Query.selectCitizenByCitizenId(statement, citizenId);
+        resultSet.next();
 
         return new CitizensTableRecord(
                 resultSet.getString("surname"),
@@ -70,7 +73,7 @@ public class Steps {
     @Step("Извлечь запись из таблицы staff с staffid={staffid}")
     public static StaffTableRecord extractRecordFromStaffTable(int staffId, Statement statement) throws SQLException {
         ResultSet resultSet = Query.selectStaffByStaffId(statement, staffId);
-
+        resultSet.next();
         return new StaffTableRecord(
                 resultSet.getString("surname"),
                 resultSet.getString("name"),

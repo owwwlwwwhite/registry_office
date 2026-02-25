@@ -9,7 +9,7 @@ import org.example.utils.RestAssuredCustomLogger;
 import java.net.URI;
 import java.util.Objects;
 
-import static org.example.utils.propertyLoaderUtil.loadProperty;
+import static org.example.utils.PropertyLoaderUtil.loadProperty;
 
 public class APISpecifications {
     public static final RequestSpecification BASE_SPECIFICATION = new RequestSpecBuilder()
