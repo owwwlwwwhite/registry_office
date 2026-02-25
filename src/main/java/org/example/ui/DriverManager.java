@@ -6,6 +6,7 @@ import lombok.extern.log4j.Log4j2;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
 
 @Log4j2
 public class DriverManager {
@@ -17,7 +18,16 @@ public class DriverManager {
     public DriverManager() {
         WebDriverManager.chromedriver().setup();
         try {
-            driver = new ChromeDriver();
+            ChromeOptions options = new ChromeOptions();
+
+            options.addArguments("--headless=new");
+
+            options.addArguments("--no-sandbox");
+            options.addArguments("--disable-dev-shm-usage");
+            options.addArguments("--disable-gpu");
+            options.addArguments("--window-size=1920,1080");
+            options.addArguments("--remote-allow-origins=*");
+            driver = new ChromeDriver(options);
         } catch (SessionNotCreatedException e) {
             log.fatal(e);
             throw e;
