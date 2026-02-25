@@ -36,7 +36,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'mvn dependency:resolve -q'
+                sh 'mvn dependency:resolve -q'
                 echo "✅ Зависимости готовы"
             }
         }
@@ -45,7 +45,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        bat '''
+                        sh '''
                             mvn clean test \
                                 -Dsurefire.useFile=false \
                                 -Dallure.results.directory=${ALLURE_RESULTS_DIR}
