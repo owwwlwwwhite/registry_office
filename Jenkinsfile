@@ -77,6 +77,17 @@ pipeline {
 
         stage('Generate Allure Report') {
             steps {
+                script {
+                    def resultsPath = "${WORKSPACE}\\${ALLURE_RESULTS_DIR}"
+                    echo "Looking for Allure results in: ${resultsPath}"
+                    if (fileExists(resultsPath)) {
+                        bat "dir ${resultsPath}"
+                        echo "Allure results found"
+                    } else {
+                        echo "Allure results NOT found at: ${resultsPath}"
+                        bat "dir target"
+                    }
+                }
                 allure([
                     includeProperties: false,
                     jdk: '',
@@ -166,7 +177,7 @@ def sendEmailNotification(String status, String color) {
                     <tr>
                         <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold;">Commit</td>
                         <td style="padding: 10px; border: 1px solid #ddd;">
-                            <a href="https://github.com/your-username/your-repo/commit/${env.GIT_COMMIT}">
+                            <a href="https://github.com/owwwlwwwhite/registry_office/commit/${env.GIT_COMMIT}">
                                 ${env.GIT_COMMIT?.take(7)}
                             </a>
                         </td>
@@ -178,7 +189,7 @@ def sendEmailNotification(String status, String color) {
                     <li><a href="${env.BUILD_URL}">Build Details</a></li>
                     <li><a href="${env.BUILD_URL}allure/">Allure Report</a></li>
                     <li><a href="${env.BUILD_URL}console">Console Output</a></li>
-                    <li><a href="https://github.com/your-username/your-repo">GitHub Repository</a></li>
+                    <li><a href="https://github.com/owwwlwwwhite/registry_office/">GitHub Repository</a></li>
                 </ul>
 
                 <div style="margin-top: 30px; padding: 15px; background-color: #e7f3ff; border-left: 4px solid #007bff; border-radius: 4px;">
