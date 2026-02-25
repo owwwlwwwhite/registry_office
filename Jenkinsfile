@@ -104,15 +104,15 @@ pipeline {
         }
 
         success {
-            sendEmailNotification("SUCCESS", "")
+            sendEmailNotification("SUCCESS", "#28a745")
         }
 
         unstable {
-            sendEmailNotification("⚠UNSTABLE: Tests Failed", "")
+            sendEmailNotification("⚠UNSTABLE: Tests Failed", "#ffc107")
         }
 
         failure {
-            sendEmailNotification("FAILURE: Build Error", "")
+            sendEmailNotification("FAILURE: Build Error", "#dc3545")
         }
 
         aborted {
