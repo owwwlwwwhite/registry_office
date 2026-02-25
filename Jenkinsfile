@@ -39,7 +39,7 @@ pipeline {
                     steps {
                         script {
                             withCredentials([file(credentialsId: 'app-secrets-file', variable: 'SECRETS_FILE_PATH')]) {
-                                bat 'copy /Y "%SECRETS_FILE_PATH%" "src/test/resources/test_auth.properties"'
+                                bat 'copy /Y "%SECRETS_FILE_PATH%" ".\\src\\test\\resources\\test_auth.properties"'
                                 echo "✅ Секретный файл подключен"
                             }
                         }
