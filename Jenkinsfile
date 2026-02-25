@@ -16,7 +16,7 @@ pipeline {
         ALLURE_REPORT_DIR = 'target/site/allure-maven-plugin'
         PROJECT_NAME = 'registry_office'
         EMAIL_RECIPIENT = 'owlwhitewing@gmail.com'
-        SECRETS_FILE_PATH = '"C:\Users\Sovushko\IdeaProjects\reg_remake\src\test\resources\test_auth.properties"'
+        //SECRETS_FILE_PATH = '"C:\Users\Sovushko\IdeaProjects\reg_remake\src\test\resources\test_auth.properties"'
     }
 
     options {
@@ -39,7 +39,7 @@ pipeline {
                     steps {
                         script {
                             withCredentials([file(credentialsId: 'app-secrets-file', variable: 'SECRETS_FILE_PATH')]) {
-                                bat "copy /Y \"%SECRETS_FILE_PATH%\" \"test_auth.properties\""
+                                bat 'copy /Y "%SECRETS_FILE_PATH%" "test_auth.properties"'
                                 echo "✅ Секретный файл подключен"
                             }
                         }
