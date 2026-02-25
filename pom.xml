@@ -237,6 +237,7 @@
                     <systemPropertyVariables>
                         <file.encoding>UTF-8</file.encoding>
                         <sun.jnu.encoding>UTF-8</sun.jnu.encoding>
+                        <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
                     </systemPropertyVariables>
                 </configuration>
             </plugin>
