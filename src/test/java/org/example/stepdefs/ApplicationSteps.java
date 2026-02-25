@@ -44,7 +44,7 @@ public class ApplicationSteps {
         log.info("Initialized all pages");
     }
 
-    @And("зашел как пользователь")
+    @When("зашел как пользователь")
     public void enterAsUser() {
         mainPage.enterAsUser();
     }
@@ -54,9 +54,19 @@ public class ApplicationSteps {
         applicantDataPage.fillFormAndSubmit(DataFactory.getApplicant());
     }
 
-    @And("выбрал услугу Регистрация смерти")
-    public void chooseDeathRegistrationService() {
-        choiceOfServicePage.selectRegistration(Mode.DEATH);
+    @And("выбрал услугу {string}")
+    public void chooseDeathRegistrationService(String mode) {
+        switch (mode) {
+            case "Регистрация смерти":
+                choiceOfServicePage.selectRegistration(Mode.DEATH);
+                break;
+            case "Регистрация рождения":
+                choiceOfServicePage.selectRegistration(Mode.BIRTH);
+                break;
+            case "Регистрация брака":
+                choiceOfServicePage.selectRegistration(Mode.MARRIAGE);
+                break;
+        }
     }
 
     @And("заполнил форму Данные гражданина валидными данными, нажал кнопку Далее")
@@ -64,13 +74,14 @@ public class ApplicationSteps {
         citizenDataPage.fillFormAndSubmit(DataFactory.getCitizen());
     }
 
-    @When("заполнил форму Данные услуги валидными данными, нажимает кнопку Далее")
+    @And("заполнил форму Данные услуги валидными данными, нажимает кнопку Далее")
     public void fillServiceDataWithValidDataAndPressProceedButton() {
         deathServiceDataPage.fillFormAndSubmit(DataFactory.getServiceDeathData());
     }
 
-    @Then("на странице отображается сообщение об успешной регистрации заявки и номер заявки")
+    @Then("на странице отображается номер заявки")
     public void successMessageAndApplicationNumber() {
         Assertions.assertNotEquals("0", applicationStatusPage.getApplicationNumber());
+        DriverManager.getInstance().closeDriver();
     }
 }

@@ -1,23 +1,27 @@
 package org.example.utils;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.qameta.allure.Step;
 import lombok.extern.log4j.Log4j2;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 @Log4j2
 public class JsonUtil {
+    private static final ObjectMapper mapper = new ObjectMapper();
+
     @Step("Достать значение из поля {field} из запроса {json}")
     public static String extractValueBodyRequest(String field, String json) {
-        String regex = "\"" + field + "\"\\s*:\\s*\"?([^\"\\n,}]*)\"?";
+        try {
+            JsonNode rootNode = mapper.readTree(json);
+            JsonNode valueNode = rootNode.get(field);
 
-        Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(json);
-
-        if (matcher.find()) {
-            log.info("Извлечено значение из поля {}={} из запроса {}", field, matcher.group(1).trim(), json);
-            return matcher.group(1).trim();
+            if (valueNode != null && !valueNode.isNull()) {
+                String value = valueNode.asText();
+                log.info("Извлечено значение из поля {}={} из запроса {}", field, value, json);
+                return value;
+            }
+        } catch (Exception e) {
+            log.error("Ошибка парсинга JSON для поля {}: {}", field, e.getMessage());
         }
         return null;
     }

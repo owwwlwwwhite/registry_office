@@ -77,7 +77,7 @@ public class DBTest extends DBBaseTest {
 
         softly.assertThat(applicationsTableRecord.dateofapplication())
                 .as("dateofapplication is not null")
-                .isEqualTo(LocalDate.now().atStartOfDay());
+                .isEqualTo(LocalDate.now());
 
         softly.assertThat(applicationsTableRecord.kindofapplication())
                 .as("kindofapplication is 'Получение свидетельства о браке'")
@@ -106,7 +106,7 @@ public class DBTest extends DBBaseTest {
                 .isEqualTo(LocalDate.parse(
                                 Objects.requireNonNull(
                                         extractValueBodyRequest("citizenBirthDate", DataAPIFactory.getSendUserRequestWedding())))
-                        .atStartOfDay());
+                );
 
         softly.assertThat(citizensTableRecord.gender())
                 .as("gender must be the same as in request citizenGender")
@@ -149,7 +149,7 @@ public class DBTest extends DBBaseTest {
                 .isEqualTo(LocalDate.parse(
                                 Objects.requireNonNull(
                                         extractValueBodyRequest("dateOfMarriage", DataAPIFactory.getSendUserRequestWedding())))
-                        .atStartOfDay());
+                );
 
         softly.assertThat(merrigeCertificatesTableRecord.surnameofspouse())
                 .as("surnameofspouse must be the same as in request anotherPersonLastName")
@@ -176,7 +176,7 @@ public class DBTest extends DBBaseTest {
                 .isEqualTo(LocalDate.parse(
                                 Objects.requireNonNull(
                                         extractValueBodyRequest("birth_of_anotoherPerson", DataAPIFactory.getSendUserRequestWedding())))
-                        .atStartOfDay());
+                );
 
         softly.assertAll();
     }
