@@ -6,8 +6,8 @@ pipeline {
     }
 
     tools {
-        maven 'Maven-3.9.6'
-        jdk 'JDK-17'
+        maven 'Maven_3.9.11'
+        jdk 'java_17'
     }
 
     // Переменные
