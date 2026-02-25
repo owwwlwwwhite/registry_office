@@ -10,13 +10,11 @@ pipeline {
         jdk 'java_17'
     }
 
-    // Переменные
     environment {
         ALLURE_RESULTS_DIR = 'target/allure-results'
         ALLURE_REPORT_DIR = 'target/site/allure-maven-plugin'
         PROJECT_NAME = 'registry_office'
         EMAIL_RECIPIENT = 'owlwhitewing@gmail.com'
-        //SECRETS_FILE_PATH = '"C:\Users\Sovushko\IdeaProjects\reg_remake\src\test\resources\test_auth.properties"'
     }
 
     options {
@@ -40,7 +38,7 @@ pipeline {
                         script {
                             withCredentials([file(credentialsId: 'app-secrets-file', variable: 'SECRETS_FILE_PATH')]) {
                                 bat 'copy /Y "%SECRETS_FILE_PATH%" ".\\src\\test\\resources\\test_auth.properties"'
-                                echo "✅ Секретный файл подключен"
+                                echo "Секретный файл подключен"
                             }
                         }
                     }
@@ -49,7 +47,7 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 bat 'mvn dependency:resolve'
-                echo "✅ Зависимости готовы"
+                echo "Зависимости готовы"
             }
         }
 
@@ -62,7 +60,7 @@ pipeline {
                                 -Dsurefire.useFile=false \
                                 -Dallure.results.directory=${ALLURE_RESULTS_DIR}
                         '''
-                        echo "✅ Тесты выполнены"
+                        echo "Тесты выполнены"
                     } catch (Exception e) {
                         currentBuild.result = 'UNSTABLE'
                         echo "⚠Тесты завершились с ошибками: ${e.getMessage()}"
