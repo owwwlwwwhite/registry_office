@@ -55,11 +55,7 @@ pipeline {
             steps {
                 script {
                     try {
-                        bat '''
-                            mvn clean test \
-                                -Dsurefire.useFile=false \
-                                -Dallure.results.directory=${ALLURE_RESULTS_DIR}
-                        '''
+                        bat 'mvn clean test -Dsurefire.useFile=false'
                         echo "Тесты выполнены"
                     } catch (Exception e) {
                         currentBuild.result = 'UNSTABLE'
