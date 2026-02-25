@@ -7,7 +7,7 @@ pipeline {
 
     tools {
         maven 'Maven_3.9.11'
-        jdk 'java_17'
+        jdk 'java_21'
     }
 
     environment {
@@ -77,7 +77,7 @@ pipeline {
                     def resultsPath = "${WORKSPACE}\\${ALLURE_RESULTS_DIR}"
                     echo "Looking for Allure results in: ${resultsPath}"
                     if (fileExists(resultsPath)) {
-                        bat "dir ${resultsPath}"
+                        bat "dir \"${resultsPath}\""
                         echo "Allure results found"
                     } else {
                         echo "Allure results NOT found at: ${resultsPath}"
