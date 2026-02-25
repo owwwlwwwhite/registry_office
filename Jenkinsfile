@@ -95,24 +95,24 @@ pipeline {
 
     post {
         always {
-            cleanWs(cleanWs: [
+            cleanWs(
                 deleteDirs: true,
                 disableDeferredWipeout: true,
                 notFailBuild: true
-            ])
+            )
             echo "Workspace очищен"
         }
 
         success {
-            sendEmailNotification("SUCCESS")
+            sendEmailNotification("SUCCESS", "")
         }
 
         unstable {
-            sendEmailNotification("⚠UNSTABLE: Tests Failed")
+            sendEmailNotification("⚠UNSTABLE: Tests Failed", "")
         }
 
         failure {
-            sendEmailNotification("FAILURE: Build Error")
+            sendEmailNotification("FAILURE: Build Error", "")
         }
 
         aborted {
