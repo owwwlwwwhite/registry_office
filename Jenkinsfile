@@ -36,7 +36,7 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bat 'mvn dependency:resolve -q'
+                bat 'mvn dependency:resolve'
                 echo "✅ Зависимости готовы"
             }
         }
