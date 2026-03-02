@@ -55,67 +55,69 @@ pipeline {
             }
         }
 
+        stage('🧹 Clean Target Directory') {
+            steps {
+                // 🔹 ОБЯЗАТЕЛЬНАЯ стадия: clean вынесен ПЕРЕД parallel
+                // Гарантирует чистый start для всех параллельных процессов
+                bat 'mvn clean'
+                echo "Target directory очищен"
+            }
+        }
+
         stage('Start Selenoid') {
+            steps {
+                script {
+                    echo "Запуск Selenoid..."
+                    bat '''
+                        docker run -d ^
+                          --name selenoid ^
+                          -p 4444:4444 ^
+                          -e DOCKER_HOST=tcp://host.docker.internal:2375 ^
+                          -e DOCKER_API_VERSION=1.53 ^
+                          -v C:/Users/Sovushko/.aerokube/selenoid:/etc/selenoid:ro ^
+                          aerokube/selenoid:latest-release ^
+                          -conf /etc/selenoid/browsers.json
+                    '''
+                    bat 'timeout /t 10 /nobreak'
+                    echo "Selenoid запущен и готов"
+                }
+            }
+        }
+
+        stage('Parallel Tests - 3 Browsers') {
+            parallel {
+                stage('Chrome') {
                     steps {
                         script {
-                            echo "Запуск Selenoid..."
-                            // Запускаем Selenoid через docker run
-                            bat '''
-                                docker run -d ^
-                                  --name selenoid ^
-                                  -p 4444:4444 ^
-                                  -e DOCKER_HOST=tcp://host.docker.internal:2375 ^
-                                  -e DOCKER_API_VERSION=1.53 ^
-                                  -v C:/Users/Sovushko/.aerokube/selenoid:/etc/selenoid:ro ^
-                                  aerokube/selenoid:latest-release ^
-                                  -conf /etc/selenoid/browsers.json
-                            '''
-                            // Ждём, пока Selenoid станет доступен
-                            bat 'timeout /t 10 /nobreak'
-                            echo "Selenoid запущен"
+                            echo "Запуск тестов на Chrome..."
+                            bat "mvn test -Dbrowser=chrome -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL} -Dsurefire.useFile=false"
                         }
                     }
                 }
-
-        stage('Run Tests - Parallel Browsers') {
-        steps {
-            script {
-                echo "Очистка /target..."
-                bat "mvn clean"
+                stage('Firefox') {
+                    steps {
+                        script {
+                            echo "Запуск тестов на Firefox..."
+                            bat "mvn test -Dbrowser=firefox -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL} -Dsurefire.useFile=false"
+                        }
+                    }
+                }
+                stage('Edge') {
+                    steps {
+                        script {
+                            echo "Запуск тестов на Edge..."
+                            bat "mvn test -Dbrowser=MicrosoftEdge -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL} -Dsurefire.useFile=false"
+                        }
+                    }
+                }
             }
-                    parallel {
-                        stage('Chrome') {
-                            steps {
-                                script {
-                                    echo "Запуск тестов на Chrome..."
-                                    bat "mvn test -Dbrowser=chrome -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL} -Dsurefire.useFile=false"
-                                }
-                            }
-                        }
-                        stage('Firefox') {
-                            steps {
-                                script {
-                                    echo "Запуск тестов на Firefox..."
-                                    bat "mvn test -Dbrowser=firefox -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL} -Dsurefire.useFile=false"
-                                }
-                            }
-                        }
-                        stage('Edge') {
-                            steps {
-                                script {
-                                    echo "Запуск тестов на Edge..."
-                                    bat "mvn test -Dbrowser=MicrosoftEdge -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL} -Dsurefire.useFile=false"
-                                }
-                            }
-                        }
-                    }
-                    post {
-                        always {
-                            junit allowEmptyResults: true,
-                                  testResults: 'target/surefire-reports/*.xml'
-                        }
-                    }
+            post {
+                always {
+                    // Собираем JUnit-отчёты со всех параллельных запусков
+                    junit allowEmptyResults: true,
+                          testResults: 'target/surefire-reports/*.xml'
                 }
+            }
         }
 
         stage('Generate Allure Report') {
