@@ -15,7 +15,7 @@ import java.util.Map;
 @Log4j2
 public class DriverManager {
     private static volatile DriverManager instance;
-    private ThreadLocal<WebDriver> driver = new ThreadLocal<>();
+    private final ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     private DriverManager() {
     }
@@ -77,12 +77,17 @@ public class DriverManager {
         }
     }
 
-    public synchronized void closeDriver() {
-        if (driver != null) {
-            log.info("Closing WebDriver");
-            driver.get().quit();
-            driver.remove();
-            log.info("WebDriver is successfully closed");
+    public void closeDriver() {
+        if (driver.get() != null) {
+            log.info("Closing WebDriver in thread: {}", Thread.currentThread().getName());
+            try {
+                driver.get().quit();
+            } catch (Exception e) {
+                log.error("Error closing WebDriver: {}", e.getMessage());
+            } finally {
+                driver.remove();
+                log.info("WebDriver removed from ThreadLocal");
+            }
         }
     }
 }
