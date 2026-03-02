@@ -55,9 +55,10 @@ pipeline {
             }
         }
 
-        stage('🧹 Clean Target Directory') {
+        stage('Clean & Test-compile Target Directory') {
             steps {
                 bat 'mvn clean'
+                bat 'mvn test-compile'
                 echo "Target directory очищен"
             }
         }
