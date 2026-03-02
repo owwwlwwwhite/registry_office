@@ -52,10 +52,9 @@ public class DriverManager {
             selenoidOptions.put("enableVNC", true);
             selenoidOptions.put("enableLog", true);
             selenoidOptions.put("sessionTimeout", "3m");
+            selenoidOptions.put("name", String.format("Test on %s", browserName));
 
             capabilities.setCapability("selenoid:options", selenoidOptions);
-
-            capabilities.setCapability("name", "Test on " + browserName);
 
             driver = new RemoteWebDriver(
                     URI.create(selenoidUrl).toURL(),
