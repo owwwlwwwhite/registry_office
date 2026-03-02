@@ -59,7 +59,7 @@ pipeline {
             steps {
                 bat 'mvn clean'
                 bat 'mvn test-compile'
-                echo "Target directory очищен"
+                echo "Target directory очищен и тесты скомпилированы"
             }
         }
 
