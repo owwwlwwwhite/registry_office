@@ -78,12 +78,17 @@ pipeline {
                 }
 
         stage('Run Tests - Parallel Browsers') {
+        steps {
+            script {
+                echo "Очистка /target..."
+                bat "mvn clean"
+            }
                     parallel {
                         stage('Chrome') {
                             steps {
                                 script {
                                     echo "Запуск тестов на Chrome..."
-                                    bat "mvn clean test -Dbrowser=chrome -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL} -Dsurefire.useFile=false"
+                                    bat "mvn test -Dbrowser=chrome -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL} -Dsurefire.useFile=false"
                                 }
                             }
                         }
@@ -111,6 +116,7 @@ pipeline {
                         }
                     }
                 }
+        }
 
         stage('Generate Allure Report') {
             steps {
