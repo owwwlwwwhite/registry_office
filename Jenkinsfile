@@ -57,8 +57,6 @@ pipeline {
 
         stage('🧹 Clean Target Directory') {
             steps {
-                // 🔹 ОБЯЗАТЕЛЬНАЯ стадия: clean вынесен ПЕРЕД parallel
-                // Гарантирует чистый start для всех параллельных процессов
                 bat 'mvn clean'
                 echo "Target directory очищен"
             }
@@ -74,7 +72,7 @@ pipeline {
                           --name selenoid ^
                           -p 4444:4444 ^
                           -e DOCKER_HOST=tcp://host.docker.internal:2375 ^
-                          -e DOCKER_API_VERSION=1.53 ^
+                          -e DOCKER_API_VERSION=1.44 ^
                           -v C:/Users/Sovushko/.aerokube/selenoid:/etc/selenoid:ro ^
                           aerokube/selenoid:latest-release ^
                           -conf /etc/selenoid/browsers.json
@@ -91,7 +89,7 @@ pipeline {
                     steps {
                         script {
                             echo "Запуск тестов на Chrome..."
-                            bat "mvn test -Dbrowser=chrome -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL} -Dsurefire.useFile=false"
+                            bat "mvn test -Dbrowser=chrome -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL}"
                         }
                     }
                 }
@@ -99,7 +97,7 @@ pipeline {
                     steps {
                         script {
                             echo "Запуск тестов на Firefox..."
-                            bat "mvn test -Dbrowser=firefox -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL} -Dsurefire.useFile=false"
+                            bat "mvn test -Dbrowser=firefox -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL}"
                         }
                     }
                 }
@@ -107,14 +105,13 @@ pipeline {
                     steps {
                         script {
                             echo "Запуск тестов на Edge..."
-                            bat "mvn test -Dbrowser=MicrosoftEdge -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL} -Dsurefire.useFile=false"
+                            bat "mvn test -Dbrowser=MicrosoftEdge -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL}"
                         }
                     }
                 }
             }
             post {
                 always {
-                    // Собираем JUnit-отчёты со всех параллельных запусков
                     junit allowEmptyResults: true,
                           testResults: 'target/surefire-reports/*.xml'
                 }
