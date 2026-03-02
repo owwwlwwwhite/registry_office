@@ -52,7 +52,7 @@ public class DriverManager {
             selenoidOptions.put("enableVNC", true);
             selenoidOptions.put("enableLog", true);
             selenoidOptions.put("sessionTimeout", "3m");
-            selenoidOptions.put("name", String.format("Test on %s", browserName));
+            selenoidOptions.put("sessionName", String.format("Test on %s", browserName));
 
             capabilities.setCapability("selenoid:options", selenoidOptions);
 

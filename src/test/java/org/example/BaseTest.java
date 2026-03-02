@@ -5,6 +5,7 @@ import org.example.ui.DriverManager;
 import org.example.ui.pages.*;
 import org.example.ui.valueObjects.Mode;
 import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;
 
@@ -53,8 +54,8 @@ public class BaseTest {
         log.info("Initialized all pages");
     }
 
-    @AfterAll
-    static void exit() {
+    @AfterEach
+    void exit() {
         DriverManager.getInstance().closeDriver();
     }
 }
