@@ -31,11 +31,11 @@ public class DriverManager {
         return instance;
     }
 
-    public synchronized ThreadLocal<WebDriver> getDriver() {
-        if (driver == null) {
+    public WebDriver getDriver() {
+        if (driver.get() == null) {
             initializeDriver();
         }
-        return driver;
+        return driver.get();
     }
 
     private void initializeDriver() {
@@ -79,14 +79,10 @@ public class DriverManager {
 
     public synchronized void closeDriver() {
         if (driver != null) {
-            try {
-                driver.remove();
-                log.info("WebDriver сессия закрыта");
-            } catch (Exception e) {
-                log.error("Ошибка при закрытии драйвера: {}", e.getMessage());
-            } finally {
-                driver = null;
-            }
+            log.info("Closing WebDriver");
+            driver.get().quit();
+            driver.remove();
+            log.info("WebDriver is successfully closed");
         }
     }
 }

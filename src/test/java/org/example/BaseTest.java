@@ -32,7 +32,6 @@ public class BaseTest {
     @BeforeEach
     void setup() {
         driver = DriverManager.getInstance().getDriver();
-        driver.manage().window().maximize();
         log.info("Setup driver");
 
         testProperties = loadProperty("test_auth.properties");
