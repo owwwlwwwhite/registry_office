@@ -1,6 +1,5 @@
 package org.example;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
 import lombok.extern.log4j.Log4j2;
 import org.example.ui.DriverManager;
 import org.example.ui.pages.*;
@@ -32,8 +31,6 @@ public class BaseTest {
 
     @BeforeEach
     void setup() {
-
-        WebDriverManager.chromedriver().setup();
         driver = DriverManager.getInstance().getDriver();
         driver.manage().window().maximize();
         log.info("Setup driver");
