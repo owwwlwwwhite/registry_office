@@ -15,7 +15,7 @@ import java.util.Map;
 @Log4j2
 public class DriverManager {
     private static volatile DriverManager instance;
-    private RemoteWebDriver driver;
+    private ThreadLocal<WebDriver> driver = new ThreadLocal<>();
 
     private DriverManager() {
     }
@@ -31,7 +31,7 @@ public class DriverManager {
         return instance;
     }
 
-    public synchronized WebDriver getDriver() {
+    public synchronized ThreadLocal<WebDriver> getDriver() {
         if (driver == null) {
             initializeDriver();
         }
@@ -56,10 +56,7 @@ public class DriverManager {
 
             capabilities.setCapability("selenoid:options", selenoidOptions);
 
-            driver = new RemoteWebDriver(
-                    URI.create(selenoidUrl).toURL(),
-                    capabilities
-            );
+            driver.set(new RemoteWebDriver(URI.create(selenoidUrl).toURL(), capabilities));
 
             Allure.parameter("Browser", browserName);
             Allure.parameter("Browser Version", browserVersion);
@@ -83,7 +80,7 @@ public class DriverManager {
     public synchronized void closeDriver() {
         if (driver != null) {
             try {
-                driver.quit();
+                driver.remove();
                 log.info("WebDriver сессия закрыта");
             } catch (Exception e) {
                 log.error("Ошибка при закрытии драйвера: {}", e.getMessage());
