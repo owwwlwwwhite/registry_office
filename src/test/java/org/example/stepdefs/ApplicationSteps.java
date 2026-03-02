@@ -4,7 +4,6 @@ import io.cucumber.java.en.And;
 import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
-import io.github.bonigarcia.wdm.WebDriverManager;
 
 import lombok.extern.log4j.Log4j2;
 import org.example.test_data.DataFactory;
@@ -31,7 +30,6 @@ public class ApplicationSteps {
 
     @Given("пользователь зашел на сайт ЗАГСа")
     public void enterSite() {
-        WebDriverManager.chromedriver().setup();
         driver.get(Objects.requireNonNull(testProp).getProperty("url"));
         log.info("Setup driver");
         mainPage = new MainPage(driver);

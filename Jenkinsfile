@@ -15,6 +15,10 @@ pipeline {
         ALLURE_REPORT_DIR = 'target/site/allure-maven-plugin'
         PROJECT_NAME = 'registry_office'
         EMAIL_RECIPIENT = 'owlwhitewing@gmail.com'
+
+        SELENOID_URL = 'http://localhost:4444/wd/hub'
+        BROWSERS = 'chrome,firefox,MicrosoftEdge'
+        BROWSER_VERSION = '120.0'
     }
 
     options {
@@ -51,25 +55,62 @@ pipeline {
             }
         }
 
-        stage('Run Tests') {
-            steps {
-                script {
-                    try {
-                        bat 'mvn clean test -Dsurefire.useFile=false'
-                        echo "Тесты выполнены"
-                    } catch (Exception e) {
-                        currentBuild.result = 'UNSTABLE'
-                        echo "⚠Тесты завершились с ошибками: ${e.getMessage()}"
+        stage('Start Selenoid') {
+                    steps {
+                        script {
+                            echo "Запуск Selenoid..."
+                            // Запускаем Selenoid через docker run
+                            bat '''
+                                docker run -d ^
+                                  --name selenoid ^
+                                  -p 4444:4444 ^
+                                  -e DOCKER_HOST=tcp://host.docker.internal:2375 ^
+                                  -e DOCKER_API_VERSION=1.53 ^
+                                  -v C:/Users/Sovushko/.aerokube/selenoid:/etc/selenoid:ro ^
+                                  aerokube/selenoid:latest-release ^
+                                  -conf /etc/selenoid/browsers.json
+                            '''
+                            // Ждём, пока Selenoid станет доступен
+                            bat 'timeout /t 10 /nobreak'
+                            echo "Selenoid запущен"
+                        }
                     }
                 }
-            }
-            post {
-                always {
-                    junit allowEmptyResults: true,
-                          testResults: 'target/surefire-reports/*.xml'
+
+        stage('Run Tests - Parallel Browsers') {
+                    parallel {
+                        stage('Chrome') {
+                            steps {
+                                script {
+                                    echo "Запуск тестов на Chrome..."
+                                    bat "mvn clean test -Dbrowser=chrome -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL} -Dsurefire.useFile=false"
+                                }
+                            }
+                        }
+                        stage('Firefox') {
+                            steps {
+                                script {
+                                    echo "Запуск тестов на Firefox..."
+                                    bat "mvn test -Dbrowser=firefox -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL} -Dsurefire.useFile=false"
+                                }
+                            }
+                        }
+                        stage('Edge') {
+                            steps {
+                                script {
+                                    echo "Запуск тестов на Edge..."
+                                    bat "mvn test -Dbrowser=MicrosoftEdge -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL} -Dsurefire.useFile=false"
+                                }
+                            }
+                        }
+                    }
+                    post {
+                        always {
+                            junit allowEmptyResults: true,
+                                  testResults: 'target/surefire-reports/*.xml'
+                        }
+                    }
                 }
-            }
-        }
 
         stage('Generate Allure Report') {
             steps {
@@ -125,7 +166,7 @@ pipeline {
         }
 
         unstable {
-            sendEmailNotification("⚠UNSTABLE: Tests Failed", "#ffc107")
+            sendEmailNotification("UNSTABLE: Tests Failed", "#ffc107")
         }
 
         failure {

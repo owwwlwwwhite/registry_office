@@ -1,16 +1,21 @@
 package org.example.ui;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+import io.qameta.allure.Allure;
 import lombok.extern.log4j.Log4j2;
+import org.openqa.selenium.MutableCapabilities;
 import org.openqa.selenium.SessionNotCreatedException;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.remote.RemoteWebDriver;
+
+import java.net.MalformedURLException;
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 
 @Log4j2
 public class DriverManager {
     private static volatile DriverManager instance;
-    private WebDriver driver;
+    private RemoteWebDriver driver;
 
     private DriverManager() {
     }
@@ -35,17 +40,43 @@ public class DriverManager {
 
     private void initializeDriver() {
         try {
-            WebDriverManager.chromedriver().setup();
+            String browserName = System.getProperty("browser", "chrome");
+            String browserVersion = System.getProperty("browser.version", "120.0");
+            String selenoidUrl = System.getProperty("selenoid.url", "http://localhost:4444/wd/hub");
 
-            ChromeOptions options = new ChromeOptions();
-             options.addArguments("--headless=new");
-            // options.addArguments("--disable-gpu", "--no-sandbox");
+            MutableCapabilities capabilities = new MutableCapabilities();
+            capabilities.setCapability("browserName", browserName);
+            capabilities.setCapability("browserVersion", browserVersion);
 
-            driver = new ChromeDriver(options);
-//            driver.manage().window().maximize();
-            log.info("Chrome Driver создан/пересоздан");
+            Map<String, Object> selenoidOptions = new HashMap<>();
+            selenoidOptions.put("enableVNC", true);
+            selenoidOptions.put("enableLog", true);
+            selenoidOptions.put("sessionTimeout", "3m");
+
+            capabilities.setCapability("selenoid:options", selenoidOptions);
+
+            capabilities.setCapability("name", "Test on " + browserName);
+
+            driver = new RemoteWebDriver(
+                    URI.create(selenoidUrl).toURL(),
+                    capabilities
+            );
+
+            Allure.parameter("Browser", browserName);
+            Allure.parameter("Browser Version", browserVersion);
+
+            log.info("WebDriver создан: browser={}, version={}, selenoid={}",
+                    browserName, browserVersion, selenoidUrl);
+
+        } catch (MalformedURLException e) {
+            log.fatal("Неверный URL Selenoid: {}", e.getMessage());
+            throw new RuntimeException("Invalid Selenoid URL", e);
         } catch (SessionNotCreatedException e) {
-            log.fatal("Не удалось создать ChromeDriver: {}", e.getMessage());
+            log.fatal("Не удалось создать сессию в Selenoid: {}. Проверьте: 1) запущен ли Selenoid, 2) доступна ли версия браузера в browser.json",
+                    e.getMessage());
+            throw e;
+        } catch (Exception e) {
+            log.fatal("Неожиданная ошибка при инициализации драйвера: {}", e.getMessage());
             throw e;
         }
     }
