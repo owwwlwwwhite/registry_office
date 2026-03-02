@@ -68,7 +68,7 @@ pipeline {
             steps {
                 script {
                     echo "Запуск Selenoid..."
-                    bat 'docker stop selenoid 2>$null; docker rm selenoid 2>$null'
+                    bat 'docker rm -f selenoid || echo "Selenoid container not found, continuing..."'
                     bat '''
                         docker run -d ^
                           --name selenoid ^
