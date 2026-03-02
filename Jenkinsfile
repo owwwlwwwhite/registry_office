@@ -79,7 +79,7 @@ pipeline {
                           aerokube/selenoid:latest-release ^
                           -conf /etc/selenoid/browsers.json
                     '''
-                    bat 'timeout /t 10 /nobreak'
+                    bat 'powershell -Command "Start-Sleep -Seconds 10"'
                     echo "Selenoid запущен и готов"
                 }
             }
@@ -161,6 +161,11 @@ pipeline {
     }
 
     post {
+        script {
+            echo "Остановка Selenoid..."
+            bat 'docker stop selenoid || echo "Selenoid not running"'
+            bat 'docker rm -f selenoid || echo "Selenoid container not found"'
+        }
         always {
             cleanWs(
                 deleteDirs: true,
