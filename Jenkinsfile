@@ -161,12 +161,12 @@ pipeline {
     }
 
     post {
-        script {
-            echo "Остановка Selenoid..."
-            bat 'docker stop selenoid || echo "Selenoid not running"'
-            bat 'docker rm -f selenoid || echo "Selenoid container not found"'
-        }
         always {
+            script {
+                echo "Остановка Selenoid..."
+                    bat 'docker stop selenoid || echo "Selenoid not running"'
+                    bat 'docker rm -f selenoid || echo "Selenoid container not found"'
+            }
             cleanWs(
                 deleteDirs: true,
                 disableDeferredWipeout: true,
