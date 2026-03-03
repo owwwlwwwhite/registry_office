@@ -1,10 +1,8 @@
-package org.example;
+package org.example.ui;
 
 import lombok.extern.log4j.Log4j2;
-import org.example.ui.DriverManager;
 import org.example.ui.pages.*;
 import org.example.ui.valueObjects.Mode;
-import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.openqa.selenium.WebDriver;

@@ -1,4 +1,4 @@
-package org.example;
+package org.example.db;
 
 import lombok.extern.log4j.Log4j2;
 import org.assertj.core.api.SoftAssertions;

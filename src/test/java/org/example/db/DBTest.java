@@ -1,4 +1,4 @@
-package org.example;
+package org.example.db;
 
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;

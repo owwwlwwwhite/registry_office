@@ -1,4 +1,4 @@
-package org.example;
+package org.example.ui;
 
 import io.qameta.allure.Link;
 import io.qameta.allure.Severity;
