@@ -7,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class Steps {
+public class DBSteps {
     @Step("Извлечь запись из таблицы merrigecertificates с citizenid={citizenid}")
     public static MerrigeCertificatesTableRecord extractRecordFromMerrigeCertificatesTable(int citizenId, Statement statement) throws SQLException {
         ResultSet resultSet = Query.selectMerrigeCertificateByCitizenId(statement, citizenId);

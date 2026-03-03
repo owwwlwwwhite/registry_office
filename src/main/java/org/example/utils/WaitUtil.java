@@ -8,7 +8,6 @@ import java.util.regex.Pattern;
 
 @Log4j2
 public class WaitUtil {
-    // private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(10);
     private static final Duration POLLING_INTERVAL = Duration.ofMillis(500);
 
     public static WebDriverWait getWait(WebDriver driver, Duration timeout) {
@@ -27,6 +26,7 @@ public class WaitUtil {
         getWait(driver, timeout).until(ExpectedConditions.visibilityOf(element));
         log.info("Get wait for visible for {} and duration of {}", element, timeout);
     }
+
     public static void waitForPatternConsists(WebDriver driver, By locator, String regex, Duration timeout) {
         new WebDriverWait(driver, timeout).until(d -> {
             WebElement span = driver.findElement(locator);

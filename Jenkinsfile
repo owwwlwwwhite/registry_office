@@ -17,7 +17,6 @@ pipeline {
         EMAIL_RECIPIENT = 'owlwhitewing@gmail.com'
 
         SELENOID_URL = 'http://localhost:4444/wd/hub'
-        BROWSERS = 'chrome,firefox,MicrosoftEdge'
         BROWSER_VERSION = '120.0'
     }
 
@@ -174,15 +173,15 @@ pipeline {
         }
 
         success {
-            sendEmailNotification("SUCCESS", "#28a745")
+            sendEmailNotification("SUCCESS")
         }
 
         unstable {
-            sendEmailNotification("UNSTABLE: Tests Failed", "#ffc107")
+            sendEmailNotification("UNSTABLE: Tests Failed")
         }
 
         failure {
-            sendEmailNotification("FAILURE: Build Error", "#dc3545")
+            sendEmailNotification("FAILURE: Build Error")
         }
 
         aborted {
@@ -191,13 +190,13 @@ pipeline {
     }
 }
 
-def sendEmailNotification(String status, String color) {
+def sendEmailNotification(String status) {
     emailext (
         subject: "${status} | ${PROJECT_NAME} | Build #${env.BUILD_NUMBER}",
         body: """
             <html>
             <body>
-                    <li><a href="${env.BUILD_URL}allure/">Allure Report</a></li>
+                    <a href="${env.BUILD_URL}allure/">Allure Report</a>
             </body>
             </html>
         """,

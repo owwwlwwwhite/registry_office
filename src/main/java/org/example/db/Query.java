@@ -15,7 +15,7 @@ public class Query {
                         where a.citizenid = %d;
                         """, citizenId
         ));
-        
+
         return rs;
     }
 
@@ -25,7 +25,7 @@ public class Query {
                 FROM reg_office.applicants a
                 where a.applicantid = %d
                 """, applicantId));
-        
+
         return rs;
     }
 
@@ -35,7 +35,7 @@ public class Query {
                 FROM reg_office.citizens a
                 where a.citizenid = %d;
                 """, citizenId));
-        
+
         return rs;
     }
 
@@ -45,7 +45,7 @@ public class Query {
                 FROM reg_office.applications a
                 WHERE a.applicationid = %d;
                 """, applicationId));
-        
+
         return rs;
     }
 
@@ -55,7 +55,7 @@ public class Query {
                 FROM reg_office.staff a
                 WHERE a.staffid = %d;
                 """, stuffId));
-        
+
         return rs;
     }
 
@@ -65,7 +65,7 @@ public class Query {
                 FROM reg_office.%s a
                 WHERE a.%s = %s;
                 """, table, field, value));
-        
+
         return rs;
     }
 

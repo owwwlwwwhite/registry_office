@@ -2,8 +2,6 @@ package org.example.db;
 
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
-import io.qameta.allure.Step;
-import io.restassured.response.Response;
 import lombok.extern.log4j.Log4j2;
 import org.example.db.DBTableRecords.*;
 import org.example.test_data.DataAPIFactory;
@@ -14,42 +12,14 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.util.Objects;
 
-import static io.restassured.RestAssured.given;
-import static org.example.api.APISpecifications.BASE_SPECIFICATION;
-import static org.example.api.EndpointsConstants.SEND_ADMIN_REQUEST_ENDPOINT;
-import static org.example.api.EndpointsConstants.SEND_USER_REQUEST_ENDPOINT;
-import static org.example.db.Steps.*;
+import static org.example.db.APISteps.createAdmin;
+import static org.example.db.APISteps.createApplication;
+import static org.example.db.DBSteps.*;
 import static org.example.utils.JsonUtil.extractValueBodyRequest;
 
 @Log4j2
 @DisplayName("Раздел DB")
 public class DBTest extends DBBaseTest {
-    @Step("Создать заявку о регистрации брака")
-    static int createApplication() {
-        Response response = given()
-                .spec(BASE_SPECIFICATION)
-                .body(DataAPIFactory.getSendUserRequestWedding())
-                .post(SEND_USER_REQUEST_ENDPOINT)
-                .then()
-                .statusCode(200)
-                .extract().response();
-
-        return response.body().jsonPath().getInt("data.applicationid");
-    }
-
-    @Step("Создать админа")
-    static int createAdmin() {
-        Response response = given()
-                .spec(BASE_SPECIFICATION)
-                .body(DataAPIFactory.getSendAdminRequest())
-                .post(SEND_ADMIN_REQUEST_ENDPOINT)
-                .then()
-                .statusCode(200)
-                .extract().response();
-
-        return response.body().jsonPath().getInt("data.staffid");
-    }
-
     @Test
     @Severity(SeverityLevel.CRITICAL)
     @DisplayName("Проверка целостности записи в БД заявки на регистрацию брака")
