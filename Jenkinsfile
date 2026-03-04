@@ -97,7 +97,9 @@ pipeline {
                     steps {
                         script {
                             echo "Запуск тестов на Firefox..."
-                            bat "mvn test -Dbrowser=firefox -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL}"
+                            catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                                bat "mvn test -Dbrowser=firefox -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL}"
+                            }
                         }
                     }
                 }
