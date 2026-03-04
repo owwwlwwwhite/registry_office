@@ -89,7 +89,9 @@ pipeline {
                     steps {
                         script {
                             echo "Запуск тестов на Chrome..."
-                            bat "mvn test -Dbrowser=chrome -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL}"
+                            catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                                bat "mvn test -Dbrowser=chrome -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL}"
+                            }
                         }
                     }
                 }
@@ -107,7 +109,9 @@ pipeline {
                     steps {
                         script {
                             echo "Запуск тестов на Edge..."
-                            bat "mvn test -Dbrowser=MicrosoftEdge -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL}"
+                            catchError(buildResult: 'UNSTABLE', stageResult: 'FAILURE') {
+                                bat "mvn test -Dbrowser=MicrosoftEdge -Dbrowser.version=${BROWSER_VERSION} -Dselenoid.url=${SELENOID_URL}"
+                            }
                         }
                     }
                 }
